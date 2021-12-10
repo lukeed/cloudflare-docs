@@ -23,6 +23,10 @@
 
 		{{#script src="bundle.ts" defer=true inline=true }}
 		{{ $page.scripts }}
+
+		<script data-source="docs" async defer src="https://feedback.developers.cloudflare.com/sdk.js"></script>
+		<link rel="preload" href="https://feedback.developers.cloudflare.com/sdk.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/>
+		<noscript><link rel="stylesheet" href="https://feedback.developers.cloudflare.com/sdk.css"/></noscript>
 	</head>
 	<body>
 		<main>
