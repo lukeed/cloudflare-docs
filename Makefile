@@ -1,9 +1,12 @@
+# https://github.com/tdewolff/minify/tree/master/cmd/minify#installation
 prepare:
-	which go
-	which pkg
-	which apt-get
-	# curl -sf https://gobinaries.com/tdewolff/minify/cmd/minify | sh
-	# minify --version
+	mkdir $HOME/src
+	cd $HOME/src
+	git clone --depth 1 https://github.com/tdewolff/minify.git
+	cd minify
+	make install
+	which minify
+	minify --version
 
 build: prepare
 	npm run build -- --minify
