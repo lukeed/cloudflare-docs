@@ -1,7 +1,7 @@
 prepare:
-	which git
-	which make
-	which yay
+	which go
+	which pkg
+	which apt-get
 	# curl -sf https://gobinaries.com/tdewolff/minify/cmd/minify | sh
 	# minify --version
 
