@@ -7,6 +7,5 @@ download:
 
 build: download
 	npm run build
-	cat public/index.html
-	minify -r public -o .
+	./minify -r public -o .
 	cat public/index.html
