@@ -1,5 +1,4 @@
 import Prism from 'prismjs';
-import { format } from './prettier';
 
 import type { Token, TokenStream } from 'prismjs';
 
@@ -214,14 +213,6 @@ export function highlight(code: string, lang: string, attrs: string): string {
     let index = code.indexOf('---', 3);
     if (index > 3) {
       code = code.substring(index + 3).replace(/^(\r?\n)+/, '');
-      // NOTE: prettier ignores snippets with frontmatter.. doesnt understand
-      try {
-        code = format(code, lang.toLowerCase());
-      } catch (err) {
-        console.error(err.stack || err);
-        console.log('~>', { lang, code });
-        throw err;
-      }
     }
   }
 
