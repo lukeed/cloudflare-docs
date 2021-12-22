@@ -123,6 +123,7 @@ const input = resolve('content');
 walk(input).then(() => {
   if (errors > 0) {
     console.error('\n\nFinished with %d error(s)\n\n', errors);
+    process.exit(1);
   }
 }).catch(err => {
   console.error(err.stack || err);
