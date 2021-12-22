@@ -6,7 +6,11 @@ prepare:
 	which git
 	curl -L https://github.com/tdewolff/minify/releases/download/v2.9.24/minify_linux_amd64.tar.gz > minify.tar.gz
 	tar -xf minify.tar.gz
-	ls -alh
+	ls /usr/local
+	ls /usr/local/bin
+	ls /usr/bin
+	./minify -h
+	ln -s minify
 	which minify
 	minify --version
 
