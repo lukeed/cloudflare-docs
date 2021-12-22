@@ -4,7 +4,7 @@ prepare:
 	cd $(HOME)/src
 	git clone --depth 1 https://github.com/tdewolff/minify.git
 	cd minify
-	make install
+	go install ./cmd/minify
 	which minify
 	minify --version
 
