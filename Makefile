@@ -8,4 +8,3 @@ download:
 build: download
 	npm run build
 	./minify -r public -o .
-	cat public/index.html
