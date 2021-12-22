@@ -5,6 +5,7 @@ import { langs } from '../config/prism';
 
 const ROOT = resolve('.');
 const ROOTLEN = ROOT.length + 1;
+const isFORCE = process.argv.includes('--force');
 const isBAIL = process.argv.includes('--bail');
 
 const MD = /\.md$/;
@@ -167,7 +168,7 @@ try {
   await walk(input);
   if (errors > 0) {
     console.error('\n\nFinished with %d error(s)\n\n', errors);
-    process.exit(1);
+    isFORCE || process.exit(1);
   }
 } catch (err) {
   console.error(err.stack || err);
