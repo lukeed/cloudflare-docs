@@ -49,7 +49,7 @@ Prism.languages.sh = {
 };
 
 // Prism language aliases
-const langs: Record<string, string> = {
+export const langs: Record<string, string> = {
   tf: 'hcl', // terraform -> hashicorp config lang
   rs: 'rust',
   shell: 'sh',

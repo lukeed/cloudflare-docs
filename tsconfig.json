@@ -18,6 +18,7 @@
     "noEmit": true,
   },
   "include": [
+    "bin",
     "assets",
     "partials",
     "config"

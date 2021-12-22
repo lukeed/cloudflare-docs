@@ -1,17 +1,23 @@
-import { join } from 'path';
+import { resolve } from 'path';
 import { readFileSync } from 'fs';
-import * as prettier from 'prettier';
+import prettier from 'prettier';
 
-const config = join(__dirname, '../.prettierrc');
-const options: prettier.Options = JSON.parse(readFileSync(config, 'utf8'));
+import type { BuiltInParserName, Options } from 'prettier';
+
+// NOTE: resolved from project root
+const config = resolve('.prettierrc');
+const options: Options = JSON.parse(readFileSync(config, 'utf8'));
 
 // prism languages to ignore
-const Ignores = new Set(['txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
+export const Ignores = new Set(['txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
 
 // prism lang -> prettier parser
-const Parsers: Record<string, prettier.BuiltInParserName> = {
+export const Parsers: Record<string, BuiltInParserName> = {
   js: 'babel',
   javascript: 'babel',
+
+  mdx: 'mdx',
+  markdown: 'mdx',
 
   json: 'json',
   json5: 'json5',
@@ -22,6 +28,7 @@ const Parsers: Record<string, prettier.BuiltInParserName> = {
   gql: 'graphql',
   graphql: 'graphql',
 
+  xml: 'html',
   html: 'html',
   svelte: 'html',
   vue: 'vue',
@@ -32,7 +39,6 @@ const Parsers: Record<string, prettier.BuiltInParserName> = {
 
 export function format(code: string, lang: string): string {
   if (Ignores.has(lang)) return code;
-
   let parser = Parsers[lang] || 'babel';
   return prettier.format(code, { ...options, parser });
 }

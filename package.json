@@ -8,6 +8,7 @@
     "dev": "bongo dev",
     "build": "bongo build",
     "format": "prettier . --write",
+    "format2": "tsm bin/format.ts",
     "lint": "prettier . --check"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "@types/prismjs": "1.16.6",
     "bongo": "npm:@lukeed/bongo@0.0.6",
     "prettier": "2.5.1",
-    "prismjs": "1.25.0"
+    "prismjs": "1.25.0",
+    "tsm": "2.2.1"
   }
 }
