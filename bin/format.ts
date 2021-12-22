@@ -16,7 +16,7 @@ const options: prettier.Options = JSON.parse(
 );
 
 // Prism languages to ignore
-const Ignores = new Set(['txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
+const Ignores = new Set(['c', 'txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
 
 // Prism language -> prettier parser
 export const Parsers: Record<string, prettier.BuiltInParserName> = {
@@ -66,8 +66,12 @@ function toError(msg: string, meta: Metadata): void {
 }
 
 function format(code: string, lang: string) {
-  let parser = Parsers[lang] || 'babel';
-  return prettier.format(code, { ...options, parser });
+  let parser = Parsers[lang];
+  if (parser != null) {
+    return prettier.format(code, { ...options, parser });
+  }
+  console.warn('Missing parser for "%s" language', lang);
+  return code;
 }
 
 async function walk(dir: string): Promise<void> {
@@ -122,8 +126,6 @@ async function run(file: string): Promise<void> {
       if (isBAIL) throw err;
       return console.error(err.stack || err);
     }
-
-    console.log({ full, lead, open, hint, inner, close, pretty });
 
     output += lead + '```' + lang + '\n';
 
