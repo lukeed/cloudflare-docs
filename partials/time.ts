@@ -6,6 +6,6 @@ const time: Template.Compiler<{ date: string }> = function (args) {
   let text = fromnow(d, { max: 1 });
   let iso = d.toISOString();
   return `<time datetime="${iso}" title="${iso.substring(0, 10)}">${text} ago</time>`;
-}
+};
 
 export default time;

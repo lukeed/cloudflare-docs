@@ -5,16 +5,16 @@ import { langs } from '../config/prism';
 
 const ROOT = resolve('.');
 const ROOTLEN = ROOT.length + 1;
+
 const isFORCE = process.argv.includes('--force');
 const isBAIL = process.argv.includes('--bail');
 
-const MD = /\.md$/;
+const isMD = /\.md$/;
+const isFILE = /\.([mc]?[tj]sx?|json|ya?ml|s?css)$/;
 const YAML = /^\s*(---[^]+(?:---\r?\n))/;
 
 const rcfile = join(ROOT, '.prettierrc');
-const options: prettier.Options = JSON.parse(
-  await fs.readFile(rcfile, 'utf8')
-);
+const options: prettier.Options = JSON.parse(await fs.readFile(rcfile, 'utf8'));
 
 // Unknown languages / missing parsers
 const Missing = new Set<string>();
@@ -43,6 +43,7 @@ export const Parsers: Record<string, prettier.BuiltInParserName> = {
   xml: 'html',
   html: 'html',
   svelte: 'html',
+  hbs: 'html',
   vue: 'vue',
 
   yaml: 'yaml',
@@ -79,14 +80,31 @@ function format(code: string, lang: string) {
   return prettier.format(code, { ...options, parser });
 }
 
+async function prettify(file: string, lang?: string) {
+  let extn = file.substring(file.lastIndexOf('.') + 1);
+
+  let input = await fs.readFile(file, 'utf8');
+  let output = format(input, lang || langs[extn] || extn);
+
+  await fs.writeFile(file, output);
+  console.log('~> ok', file.substring(ROOTLEN));
+}
+
 async function walk(dir: string): Promise<void> {
   let files = await fs.readdir(dir);
 
   await Promise.all(
     files.map(fname => {
       let absolute = join(dir, fname);
-      if (fname === 'node_modules') return;
-      if (MD.test(fname)) return run(absolute);
+
+      if (fname === '.github') return walk(absolute);
+      if (fname === 'node_modules' || fname === 'public') return;
+      if (/^[._]/.test(fname) || /\.hbs$/.test(fname)) return;
+      // TODO: temporarily disable `*.hbs` formatting
+
+      if (isMD.test(fname)) return markdown(absolute);
+      if (isFILE.test(fname)) return prettify(absolute);
+
       return fs.stat(absolute).then(stats => {
         if (stats.isDirectory()) return walk(absolute);
       });
@@ -94,14 +112,14 @@ async function walk(dir: string): Promise<void> {
   );
 }
 
-async function run(file: string): Promise<void> {
+async function markdown(file: string): Promise<void> {
   let last = 0;
   let output = '';
   let match: RegExpExecArray | null;
   let input = await fs.readFile(file, 'utf8');
   let BACKTICKS = /^( +)?([`]{3})([A-Za-z]+?)\n([^]+?)(\2)/gm;
 
-  while (match = BACKTICKS.exec(input)) {
+  while ((match = BACKTICKS.exec(input))) {
     let [full, lead, open, hint, inner, close] = match;
 
     let current = match.index;
@@ -118,7 +136,7 @@ async function run(file: string): Promise<void> {
     }
 
     let isYAML = YAML.exec(inner);
-    let frontmatter = isYAML && isYAML[1] || '';
+    let frontmatter = (isYAML && isYAML[1]) || '';
 
     if (frontmatter.length > 0) {
       // TODO: parse for `format: false` value
@@ -170,15 +188,13 @@ async function run(file: string): Promise<void> {
   console.log('~> ok', file.substring(ROOTLEN));
 }
 
-// resolved from project root
-const input = resolve('content');
-
 try {
-  await walk(input);
+  await walk(ROOT);
 
   if (Missing.size > 0) {
+    let langs = [...Missing].sort();
     console.warn('\n\nMissing parser for language(s):\n');
-    console.warn([...Missing].sort().map(x => '  - ' + x).join('\n'));
+    console.warn(langs.map(x => '  - ' + x).join('\n'));
   }
 
   if (errors > 0) {

@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "bongo dev",
     "build": "bongo build",
-    "format": "prettier . --write",
-    "format2": "tsm bin/format.ts",
+    "format": "tsm bin/format.ts",
     "lint": "prettier . --check"
   },
   "devDependencies": {
