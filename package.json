@@ -8,7 +8,7 @@
     "dev": "bongo dev",
     "build": "bongo build",
     "format": "tsm bin/format.ts",
-    "lint": "prettier . --check"
+    "lint": "tsm bin/format.ts --check"
   },
   "devDependencies": {
     "@bongo/markdown": "0.0.6",

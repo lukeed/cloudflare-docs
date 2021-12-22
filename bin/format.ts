@@ -7,6 +7,7 @@ const ROOT = resolve('.');
 const ROOTLEN = ROOT.length + 1;
 
 const isSILENT = process.argv.includes('--quiet');
+const isCHECK = process.argv.includes('--check');
 const isBAIL = process.argv.includes('--bail');
 
 const isMD = /\.md$/;
@@ -56,7 +57,9 @@ interface Metadata {
   content?: string;
 }
 
+let warns = 0;
 let errors = 0;
+
 function toError(msg: string, meta: Metadata): void {
   errors++;
 
@@ -80,14 +83,23 @@ function format(code: string, lang: string) {
   return prettier.format(code, { ...options, parser });
 }
 
+async function write(file: string, output: string, isMatch: boolean) {
+  let txt = isCHECK ? 'PASS' : 'OK';
+  if (isCHECK && !isMatch) {
+    process.exitCode = 1;
+    txt = 'FAIL';
+    warns++;
+  }
+  isCHECK || (await fs.writeFile(file, output));
+  process.stdout.write(`[${txt}] ${file.substring(ROOTLEN)}\n`);
+}
+
 async function prettify(file: string, lang?: string) {
   let extn = file.substring(file.lastIndexOf('.') + 1);
 
   let input = await fs.readFile(file, 'utf8');
   let output = format(input, lang || langs[extn] || extn);
-
-  await fs.writeFile(file, output);
-  console.log('~> ok', file.substring(ROOTLEN));
+  await write(file, output, input === output);
 }
 
 async function walk(dir: string): Promise<void> {
@@ -184,8 +196,7 @@ async function markdown(file: string): Promise<void> {
     return console.error(err.stack || err);
   }
 
-  await fs.writeFile(file, output);
-  console.log('~> ok', file.substring(ROOTLEN));
+  await write(file, output, input === output);
 }
 
 try {
@@ -197,8 +208,15 @@ try {
     console.warn(langs.map(x => '  - ' + x).join('\n'));
   }
 
-  if (errors > 0) {
-    console.error('\n\nFinished with %d error(s)\n\n', errors);
+  if (errors || warns) {
+    console.error('\n');
+    if (errors) {
+      console.error('Finished with %d error(s)', errors);
+    }
+    if (isCHECK && warns) {
+      console.error('Finished with %d warning(s)', warns);
+    }
+    console.error('\n');
     isSILENT || process.exit(1);
   }
 } catch (err) {
