@@ -1,13 +1,8 @@
 # https://github.com/tdewolff/minify/tree/master/cmd/minify#installation
+# NOTE: build pipeline prevents `cd` action
 prepare:
-	mkdir $(HOME)/src
-	cd $(HOME)/src
 	git clone --depth 1 https://github.com/tdewolff/minify.git
-	ls -alh
-	ls -alh minify
-	cd minify
-	ls -alh
-	go install ./cmd/minify
+	go install ./minify/cmd/minify
 	which minify
 	minify --version
 
