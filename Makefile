@@ -2,7 +2,7 @@
 # NOTE: build pipeline prevents `cd` action
 prepare:
 	git clone --depth 1 https://github.com/tdewolff/minify.git
-	go install ./minify/cmd/minify
+	$(MAKE) install -C minify
 	which minify
 	minify --version
 
