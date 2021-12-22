@@ -8,3 +8,6 @@ public
 
 _components
 _ignore
+
+/content
+/bin

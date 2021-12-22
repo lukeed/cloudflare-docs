@@ -1,17 +1,18 @@
 import prettier from 'prettier';
 import * as fs from 'fs/promises';
-import { join, resolve, relative } from 'path';
+import { join, resolve } from 'path';
 import { langs } from '../config/prism';
 
 const ROOT = resolve('.');
-const PFILE = join(ROOT, '.prettierrc');
+const ROOTLEN = ROOT.length + 1;
 const isBAIL = process.argv.includes('--bail');
 
 const MD = /\.md$/;
 const YAML = /^\s*(---[^]+(?:---\r?\n))/;
 
+const rcfile = join(ROOT, '.prettierrc');
 const options: prettier.Options = JSON.parse(
-  await fs.readFile(PFILE, 'utf8')
+  await fs.readFile(rcfile, 'utf8')
 );
 
 // Prism languages to ignore
@@ -53,7 +54,7 @@ let errors = 0;
 function toError(msg: string, meta: Metadata): void {
   errors++;
 
-  msg += '\n~> file: ' + relative(ROOT, meta.file);
+  msg += '\n~> file: ' + meta.file.substring(ROOTLEN);
   msg += '\n~> language: ' + meta.lang;
   if (meta.content) {
     msg += '\n~> code: ';
@@ -154,18 +155,19 @@ async function run(file: string): Promise<void> {
   }
 
   await fs.writeFile(file, output);
-  console.log('~> ok', file);
+  console.log('~> ok', file.substring(ROOTLEN));
 }
 
 // resolved from project root
 const input = resolve('content');
 
-walk(input).then(() => {
+try {
+  await walk(input);
   if (errors > 0) {
     console.error('\n\nFinished with %d error(s)\n\n', errors);
     process.exit(1);
   }
-}).catch(err => {
+} catch (err) {
   console.error(err.stack || err);
   process.exit(1);
-});
+}
