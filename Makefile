@@ -3,6 +3,8 @@ prepare:
 	mkdir $(HOME)/src
 	cd $(HOME)/src
 	git clone --depth 1 https://github.com/tdewolff/minify.git
+	ls -alh
+	ls -alh minify
 	cd minify
 	ls -alh
 	go install ./cmd/minify
