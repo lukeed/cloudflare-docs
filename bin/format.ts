@@ -1,12 +1,47 @@
+import prettier from 'prettier';
 import * as fs from 'fs/promises';
 import { join, resolve, relative } from 'path';
-import { format, Ignores } from '../config/prettier';
 import { langs } from '../config/prism';
 
-const MD = /\.md$/;
 const ROOT = resolve('.');
-const YAML = /^\s*(---[^]+(?:---\r?\n))/;
+const PFILE = join(ROOT, '.prettierrc');
 const isBAIL = process.argv.includes('--bail');
+
+const MD = /\.md$/;
+const YAML = /^\s*(---[^]+(?:---\r?\n))/;
+
+const options: prettier.Options = JSON.parse(
+  await fs.readFile(PFILE, 'utf8')
+);
+
+// Prism languages to ignore
+const Ignores = new Set(['txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
+
+// Prism language -> prettier parser
+export const Parsers: Record<string, prettier.BuiltInParserName> = {
+  js: 'babel',
+  javascript: 'babel',
+
+  mdx: 'mdx',
+  markdown: 'mdx',
+
+  json: 'json',
+  json5: 'json5',
+
+  ts: 'typescript',
+  typescript: 'typescript',
+
+  gql: 'graphql',
+  graphql: 'graphql',
+
+  xml: 'html',
+  html: 'html',
+  svelte: 'html',
+  vue: 'vue',
+
+  yaml: 'yaml',
+  yml: 'yaml',
+};
 
 interface Metadata {
   file: string;
@@ -27,6 +62,11 @@ function toError(msg: string, meta: Metadata): void {
     });
   }
   console.error('\n\n' + msg);
+}
+
+function format(code: string, lang: string) {
+  let parser = Parsers[lang] || 'babel';
+  return prettier.format(code, { ...options, parser });
 }
 
 async function walk(dir: string): Promise<void> {
