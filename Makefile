@@ -4,7 +4,7 @@
 prepare:
 	echo "Cloning tdewolff/minify source"
 	git clone --depth 1 https://github.com/tdewolff/minify.git
-	@-$(MAKE) --ignore-errors install -C minify
+	@-$(MAKE) install -C minify -k
 	which minify
 	minify --version
 
