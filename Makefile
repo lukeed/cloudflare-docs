@@ -1,6 +1,7 @@
 # https://github.com/tdewolff/minify/tree/master/cmd/minify#installation
 # NOTE: build pipeline prevents `cd` action
 
+FLAGS=v2.9.24
 FLAGS=-ldflags "-s -w -X 'main.Version=${VERSION}'" -trimpath
 ENVS=GO111MODULES=on CGO_ENABLED=0
 
