@@ -16,16 +16,20 @@ const options: prettier.Options = JSON.parse(
   await fs.readFile(rcfile, 'utf8')
 );
 
+// Unknown languages / missing parsers
+const Missing = new Set<string>();
+
 // Prism languages to ignore
-const Ignores = new Set(['c', 'txt', 'bash', 'sh', 'rust', 'ruby', 'python', 'toml']);
+const Ignores = new Set(['txt', 'diff', 'bash', 'sh', 'toml']);
 
 // Prism language -> prettier parser
 export const Parsers: Record<string, prettier.BuiltInParserName> = {
   js: 'babel',
   javascript: 'babel',
 
-  mdx: 'mdx',
+  md: 'mdx',
   markdown: 'mdx',
+  mdx: 'mdx',
 
   json: 'json',
   json5: 'json5',
@@ -68,11 +72,11 @@ function toError(msg: string, meta: Metadata): void {
 
 function format(code: string, lang: string) {
   let parser = Parsers[lang];
-  if (parser != null) {
-    return prettier.format(code, { ...options, parser });
+  if (parser == null) {
+    Missing.add(lang);
+    return code;
   }
-  console.warn('Missing parser for "%s" language', lang);
-  return code;
+  return prettier.format(code, { ...options, parser });
 }
 
 async function walk(dir: string): Promise<void> {
@@ -107,7 +111,7 @@ async function run(file: string): Promise<void> {
     hint = hint || 'txt';
     let lang = (langs[hint] || hint).toLowerCase();
 
-    if (Ignores.has(lang)) {
+    if (Ignores.has(lang) || Missing.has(lang)) {
       last = current + full.length;
       output += full;
       continue;
@@ -125,7 +129,7 @@ async function run(file: string): Promise<void> {
     } catch (err) {
       toError('Error formatting code snippet!', { file, lang, content: inner });
       if (isBAIL) throw err;
-      return console.error(err.stack || err);
+      return console.error(err.message || err);
     }
 
     output += lead + '```' + lang + '\n';
@@ -166,6 +170,12 @@ const input = resolve('content');
 
 try {
   await walk(input);
+
+  if (Missing.size > 0) {
+    console.warn('\n\nMissing parser for language(s):\n');
+    console.warn([...Missing].sort().map(x => '  - ' + x).join('\n'));
+  }
+
   if (errors > 0) {
     console.error('\n\nFinished with %d error(s)\n\n', errors);
     isFORCE || process.exit(1);
