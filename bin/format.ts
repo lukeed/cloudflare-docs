@@ -120,14 +120,19 @@ async function run(file: string): Promise<void> {
     let isYAML = YAML.exec(inner);
     let frontmatter = isYAML && isYAML[1] || '';
 
-    if (frontmatter.length) {
-      inner = inner.substring(frontmatter.length);
+    if (frontmatter.length > 0) {
+      // TODO: parse for `format: false` value
+      inner = inner.substring(frontmatter.length + lead.length);
+
+      if (lead.length > 0) {
+        frontmatter = frontmatter.replace(new RegExp('\n' + lead, 'g'), '\n');
+      }
     }
 
     try {
       var pretty = format(inner, lang).trimEnd();
     } catch (err) {
-      toError('Error formatting code snippet!', { file, lang, content: inner });
+      toError('Error formatting code snippet!', { file, lang });
       if (isBAIL) throw err;
       return console.error(err.message || err);
     }
