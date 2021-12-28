@@ -54,7 +54,8 @@ export class Pool extends EventEmitter {
     };
 
     let i = 0;
-    let max = options.max || cpus().length;
+    console.log('> cpu count', cpus().length);
+    let max = Math.max(1, options.max || cpus().length);
     while (i++ < max) this.spawn();
 
     this.on(FREE, () => {
