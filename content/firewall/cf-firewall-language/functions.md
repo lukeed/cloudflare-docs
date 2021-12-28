@@ -358,8 +358,7 @@ and is composed of these parentheses-delimited expressions:
         <p>
           A base64-encoded version of the <em>MAC</em>. When you do not set the value of the{' '}
           <em>urlSafe</em> argument in the HMAC validation function to{' '}
-          <code class="InlineCode">'s'</code>, you must URL encode the base64 value for <em>mac</em>
-          .
+          <code class="InlineCode">'s'</code>, you must URL encode the base64 value for <em>mac</em>.
         </p>
         <p>
           When the base64 MAC encoding is URL-safe, the value for <em>mac</em> contains 43 bytes.

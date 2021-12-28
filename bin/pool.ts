@@ -13,39 +13,41 @@ export interface Options {
   max?: number;
 }
 
-export type Callback<T=unknown> = (err: Error|null, result: T) => Promise<void> | void;
+export type Callback<T = unknown> = (err: Error | null, result: T) => Promise<void> | void;
 
-export interface Task<I=any, R=unknown> {
+export interface Task<I = any, R = unknown> {
   input: I;
-  handle: Callback<R>;
+  handle?: Callback<R>;
+  resolve(value: R): void;
+  reject(reason?: any): void;
 }
 
-function exec<R=unknown>(callback: Callback<R>, err: Error|null, result: R | null) {
+async function exec<R = unknown>(callback: Callback<R>, err: Error | null, result: R | null) {
   let item = new AsyncResource('Task');
-  item.runInAsyncScope(callback, null, err, result);
+  let output = await item.runInAsyncScope(callback, null, err, result);
   item.emitDestroy(); // single use
+  return output;
 }
 
 export class Pool extends EventEmitter {
   jobs: Map<number, Callback<unknown>>;
   idles: Worker[];
   workers: Set<Worker>;
-  script: URL|string;
+  script: URL | string;
   tasks: Task[];
 
   private options?: WorkerOptions;
-  private exit: boolean;
+  private exit?: () => void;
 
   constructor(options: Options) {
     super();
 
     this.idles = [];
     this.script = options.script;
-    this.workers = new Set;
-    this.jobs = new Map;
+    this.workers = new Set();
+    this.jobs = new Map();
     this.tasks = [];
 
-    this.exit = false;
     this.options = {
       execArgv: [],
       ...options.spawn,
@@ -58,59 +60,69 @@ export class Pool extends EventEmitter {
     this.on(FREE, () => {
       if (this.tasks.length > 0) {
         let task = this.tasks.shift()!;
-        this.run(task.input, task.handle);
+        this.dispatch(task);
       }
     });
   }
 
-  spawn(options?: WorkerOptions) {
-    if (this.exit) return;
+  private dispatch(task: Task) {
+    if (this.idles.length < 1) {
+      this.tasks.push(task);
+      return;
+    }
 
-    let worker = new Worker(this.script, { ...this.options, ...options });
+    let worker = this.idles.pop()!;
 
-    worker.on('message', result => {
-      let tid = worker.threadId;
-      let handle = this.jobs.get(tid)!;
-      exec(handle, null, result);
+    worker.once('message', async result => {
+      if (task.handle) {
+        result = await exec(task.handle, null, result);
+      }
 
-      this.jobs.delete(tid);
+      worker.removeAllListeners('message');
       this.idles.push(worker);
+      task.resolve(result);
       this.emit(FREE);
     });
 
-    worker.on('error', err => {
-      let tid = worker.threadId;
-      let handle = this.jobs.get(tid);
-
-      if (handle) exec(handle, err, null);
-      else this.emit('error', err);
+    worker.once('error', async err => {
+      let result;
+      if (task.handle) {
+        result = await exec(task.handle, err, null);
+      }
 
       // replace current/dead worker
       this.workers.delete(worker);
 
       // TODO: options.retry
-      this.jobs.delete(tid);
       this.spawn();
+
+      if (result == null) task.reject(err);
+      else task.resolve(result);
     });
 
-    this.idles.push(worker);
+    worker.postMessage(task.input);
+  }
+
+  spawn(options?: WorkerOptions) {
+    if (this.exit) return;
+
+    let worker = new Worker(this.script, {
+      ...this.options,
+      ...options,
+    });
+
     this.workers.add(worker);
+    this.idles.push(worker);
     this.emit(FREE);
   }
 
-  run<R, T=any>(input: T, handle: Callback<R>) {
-    if (this.idles.length > 0) {
-      let worker = this.idles.pop()!;
-      // TODO: save `input` somewhere for/if retry
-      this.jobs.set(worker.threadId, handle as Callback<unknown>);
-      worker.postMessage(input);
-    } else {
-      this.tasks.push({ input, handle } as Task);
-    }
+  run<T, R>(input: T, handle?: Callback<R>) {
+    return new Promise((resolve, reject) => {
+      this.dispatch({ input, handle, resolve, reject } as Task);
+    });
   }
 
   close() {
-    this.exit = true;
     for (let worker of this.workers) {
       worker.terminate();
     }
@@ -120,7 +132,7 @@ export class Pool extends EventEmitter {
 export const isMain = isMainThread;
 export const isWorker = !isMainThread;
 
-export function listen<R=unknown>(callback: Callback<R>) {
+export function listen<R = unknown>(callback: Callback<R>) {
   if (parentPort) parentPort.on('message', callback);
-  else throw new Error("Missing `parentPort` link");
+  else throw new Error('Missing `parentPort` link');
 }
