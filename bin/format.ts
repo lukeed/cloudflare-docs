@@ -10,7 +10,6 @@ const ROOTLEN = ROOT.length + 1;
 
 const isSILENT = process.argv.includes('--quiet');
 const isCHECK = process.argv.includes('--check');
-const isBAIL = process.argv.includes('--bail');
 
 const isFILE = /\.(mdx?|[mc]?[tj]sx?|json|ya?ml|s?css)$/;
 
@@ -61,8 +60,6 @@ async function walk(dir: string): Promise<void> {
       if (isFILE.test(fname)) {
         return task.run(absolute, handler);
       }
-      // if (isMD.test(fname)) return markdown(absolute);
-      // if (isFILE.test(fname)) return prettify(absolute);
 
       return fs.stat(absolute).then(stats => {
         if (stats.isDirectory()) return walk(absolute);

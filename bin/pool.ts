@@ -37,7 +37,7 @@ export class Pool extends EventEmitter {
   tasks: Task[];
 
   private options?: WorkerOptions;
-  private exit?: () => void;
+  private exit?: boolean;
 
   constructor(options: Options) {
     super();
@@ -65,7 +65,7 @@ export class Pool extends EventEmitter {
     });
   }
 
-  private dispatch(task: Task) {
+  private dispatch(task: Task): void {
     if (this.idles.length < 1) {
       this.tasks.push(task);
       return;
@@ -103,7 +103,7 @@ export class Pool extends EventEmitter {
     worker.postMessage(task.input);
   }
 
-  spawn(options?: WorkerOptions) {
+  spawn(options?: WorkerOptions): void {
     if (this.exit) return;
 
     let worker = new Worker(this.script, {
@@ -122,7 +122,8 @@ export class Pool extends EventEmitter {
     });
   }
 
-  close() {
+  close(): void {
+    this.exit = true;
     for (let worker of this.workers) {
       worker.terminate();
     }
