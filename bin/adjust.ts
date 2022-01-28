@@ -20,6 +20,8 @@ const CONTENT = join(ROOT, 'content');
 
 async function task(file: string) {
   let fileArr = file.split('/');
+  // The product name will be whatever comes after "content"
+  // i.e. cloudflare-docs/content/workers/index.md
   let product = fileArr[fileArr.indexOf('content') + 1];
   let data = await fs.readFile(file, 'utf8');
 
