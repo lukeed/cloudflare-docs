@@ -7,7 +7,7 @@
 
 import * as fs from 'fs/promises';
 import { join, resolve } from 'path';
-// import { toMarkdown } from 'mdast-util-to-markdown';
+import { toMarkdown } from 'mdast-util-to-markdown';
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import * as astray from 'astray';
 import yaml from 'yaml';
@@ -19,6 +19,8 @@ const ROOT = resolve('.');
 const CONTENT = join(ROOT, 'content');
 
 async function task(file: string) {
+  let fileArr = file.split('/');
+  let product = fileArr[fileArr.indexOf('content') + 1];
   let data = await fs.readFile(file, 'utf8');
 
   if (data.substring(0, 3) !== '---') {
@@ -29,7 +31,7 @@ async function task(file: string) {
   let ftxt = data.substring(3, index);
   let fmatter = yaml.parse(ftxt);
 
-  let content = data.substring(index+3).trim();
+  let content = data.substring(index + 3).trim();
   let tree = fromMarkdown(content);
 
   // TODO: check/change links
@@ -44,18 +46,25 @@ async function task(file: string) {
       astray.walk<MDAST.Heading, void, any>(node, {
         text(t: MDAST.Text) {
           title += t.value;
-        }
+        },
       });
 
       return astray.SKIP;
-    }
+    },
+
+    link(node: MDAST.Link) {
+      if (node.url.startsWith('/')) {
+        node.url = `/${product}${node.url}`;
+      }
+    },
   });
 
   title = title.trim();
   fmatter.title = (fmatter.title || '').trim();
+  content = toMarkdown(tree);
 
   if (!title) {
-    return console.error('[ERRO] Missing title!', file);
+    return console.error('[ERROR] Missing title!', file);
   }
 
   if (fmatter.title === title) {
@@ -80,7 +89,9 @@ async function task(file: string) {
 async function walk(dir: string): Promise<void> {
   let files = await fs.readdir(dir);
 
-  let i=0, count=0, tmp: string;
+  let i = 0,
+    count = 0,
+    tmp: string;
   let ignores = new Set(['images', 'static']);
 
   for (; i < files.length; i++) {
