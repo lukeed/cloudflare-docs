@@ -86,13 +86,19 @@ async function task(file: string) {
     },
 
     html(node: MDAST.HTML) {
-      if (node.value.startsWith('<button ')) {
+      if (node.value.startsWith('<button ') && node.value.includes(' href=')) {
         let html = parse(node.value);
-        let button = html.querySelector('button');
-        let href = button?.getAttribute('href');
-        if (button && href && href.startsWith('/')) {
-          button.setAttribute('href', `/${product}${href}`);
-          node.value = button.toString().replace('</button>', '');
+        let button = html.querySelector('button[href]');
+
+        if (button) {
+          let href = button.getAttribute('href');
+
+          if (href) {
+            button.setAttribute('href', toHref(prefix, href));
+            node.value = button.toString().slice(0, -9);
+          } else {
+            console.log('Missing "href" value!', node.value);
+          }
         }
       }
     },
