@@ -9,6 +9,7 @@ import * as fs from 'fs/promises';
 import { join, resolve } from 'path';
 import { toMarkdown } from 'mdast-util-to-markdown';
 import { fromMarkdown } from 'mdast-util-from-markdown';
+import { parse } from 'node-html-parser';
 import * as astray from 'astray';
 import yaml from 'yaml';
 
@@ -57,6 +58,18 @@ async function task(file: string) {
     link(node: MDAST.Link) {
       if (node.url.startsWith('/')) {
         node.url = `/${product}${node.url}`;
+      }
+    },
+
+    html(node: MDAST.HTML) {
+      if (node.value.startsWith('<button ')) {
+        let html = parse(node.value);
+        let button = html.querySelector('button');
+        let href = button?.getAttribute('href');
+        if (button && href && href.startsWith('/')) {
+          button.setAttribute('href', `/${product}${href}`);
+          node.value = button.toString().replace('</button>', '');
+        }
       }
     },
   });
