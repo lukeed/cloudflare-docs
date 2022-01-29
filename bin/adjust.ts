@@ -2,7 +2,7 @@
  * sweeping changes to "content/**" markdown
  * 1) ensure every frontmatter as a `title` value
  * 2) ensure index pages are "_index.md"
- * TODO: link fixes
+ * 3) ensure all same-origin links are absolute paths
  */
 
 import * as fs from 'fs/promises';
@@ -18,6 +18,33 @@ import type * as MDAST from 'mdast';
 const isMD = /\.md$/;
 const ROOT = resolve('.');
 const CONTENT = join(ROOT, 'content');
+
+const ORIGIN = 'https://developers.cloudflare.com';
+
+function toHref(prefix: string, input: string): string {
+  if (input.startsWith('#')) return input;
+
+  if (/^(https?:)?\/\//.test(input)) {
+    let tmp = new URL(input);
+    if (tmp.origin !== ORIGIN) return input;
+    return tmp.pathname + tmp.search + tmp.hash;
+  }
+
+  if (input.startsWith(prefix)) return input;
+
+  let tmp = new URL(input, ORIGIN);
+
+  let path = tmp.pathname;
+  if (!path.endsWith('/')) {
+    path += '/';
+  }
+
+  if (!path.startsWith(prefix)) {
+    path = prefix + path.substring(1);
+  }
+
+  return path + tmp.search + tmp.hash;
+}
 
 async function task(file: string) {
   let fileArr = file.split('/');
@@ -37,9 +64,8 @@ async function task(file: string) {
   let content = data.substring(index + 3).trim();
   let tree = fromMarkdown(content);
 
-  // TODO: check/change links
-
   let title = '';
+  let prefix = `/${product}/`;
 
   // look for title value from h1
   astray.walk<MDAST.Root, void, any>(tree, {
@@ -56,9 +82,7 @@ async function task(file: string) {
     },
 
     link(node: MDAST.Link) {
-      if (node.url.startsWith('/')) {
-        node.url = `/${product}${node.url}`;
-      }
+      node.url = toHref(prefix, node.url);
     },
 
     html(node: MDAST.HTML) {
@@ -76,7 +100,6 @@ async function task(file: string) {
 
   title = title.trim();
   fmatter.title = (fmatter.title || '').trim();
-  content = toMarkdown(tree);
 
   if (!title) {
     return console.error('[ERROR] Missing title!', file);
@@ -97,6 +120,8 @@ async function task(file: string) {
   // regenerate new front matter
   ftxt = '---\n' + yaml.stringify(fmatter) + '---\n\n';
 
+  content = toMarkdown(tree);
+
   // write the updated markdown file
   await fs.writeFile(file, ftxt + content);
 }
@@ -104,13 +129,11 @@ async function task(file: string) {
 async function walk(dir: string): Promise<void> {
   let files = await fs.readdir(dir);
 
-  let i = 0,
-    count = 0,
-    tmp: string;
+  let count = 0;
   let ignores = new Set(['images', 'static']);
 
-  for (; i < files.length; i++) {
-    tmp = files[i];
+  for (let i=0; i < files.length; i++) {
+    let tmp = files[i];
     // has many markdown OR directory siblings
     if (isMD.test(tmp)) count++;
     else if (ignores.has(tmp)) continue;
