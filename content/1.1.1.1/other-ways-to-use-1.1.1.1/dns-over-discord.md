@@ -8,7 +8,7 @@ title: DNS over Discord
 
 1.1.1.1 works from a Discord server, thanks to the [@1.1.1.1 bot](https://cfl.re/3nM6VfQ).
 
-To start using the DNS over Discord bot, invite it to your Discord server using this link: [https://cfl.re/3nM6VfQ](https://cfl.re/3nM6VfQ)
+To start using the DNS over Discord bot, invite it to your Discord server using this link: <https://cfl.re/3nM6VfQ>
 
 ## dig command
 
@@ -256,7 +256,7 @@ _`/help`_
 
 ### privacy command
 
-The `/privacy` command displays the privacy policy notice for using the 1.1.1.1 DNS over Discord bot. This notice can also be viewed at [https://dns-over-discord.v4.wtf/privacy](https://dns-over-discord.v4.wtf/privacy).
+The `/privacy` command displays the privacy policy notice for using the 1.1.1.1 DNS over Discord bot. This notice can also be viewed at <https://dns-over-discord.v4.wtf/privacy>.
 
 <div class="medium-img">
 
@@ -268,7 +268,7 @@ _`/privacy`_
 
 ### github command
 
-The DNS over Discord bot is open-source, and the `/github` command provides a quick link to access the GitHub repository. The GitHub repository can be accessed at [https://github.com/MattIPv4/DNS-over-Discord/](https://github.com/MattIPv4/DNS-over-Discord/).
+The DNS over Discord bot is open-source, and the `/github` command provides a quick link to access the GitHub repository. The GitHub repository can be accessed at <https://github.com/MattIPv4/DNS-over-Discord/>.
 
 <div class="medium-img">
 
@@ -281,7 +281,7 @@ _`/github`_
 ### invite command
 
 The `/invite` command provides the user with a quick link to invite the 1.1.1.1 DNS over Discord bot to another Discord server.
-The bot can be invited at any time with [https://cfl.re/3nM6VfQ](https://cfl.re/3nM6VfQ).
+The bot can be invited at any time with <https://cfl.re/3nM6VfQ>.
 
 <div class="medium-img">
 
@@ -297,4 +297,4 @@ _`/invite`_
 
 The DNS over Discord bot is deployed on [Cloudflare Workers](https://workers.cloudflare.com/).
 
-You can find the source code for the bot on GitHub, as well as information on getting started with contributing to the project, at [https://github.com/MattIPv4/DNS-over-Discord/](https://github.com/MattIPv4/DNS-over-Discord/).
+You can find the source code for the bot on GitHub, as well as information on getting started with contributing to the project, at <https://github.com/MattIPv4/DNS-over-Discord/>.
