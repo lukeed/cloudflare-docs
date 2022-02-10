@@ -38,8 +38,8 @@ run:
 
 	@echo "\n~> updating .github/workflows directory"
 	rm -rf .github/workflows
-	cp -rf ../docs-hugo/.github/workflows .
-	git add .github/workflows
+	cp -rf ../docs-hugo/.github/workflows .github/.
+	git add .github
 	@git commit -m "update github actions"
 
 	@echo "\n~> importing Pages build scripts"
