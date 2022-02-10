@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~15 --hard
+	git reset HEAD~16 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
@@ -52,3 +52,11 @@ run:
 	rm -rf migrate
 	git add migrate
 	@git commit -m "remove migrate directory"
+
+	@echo "\n~> TODO: removing components directories"
+	rm -rf content/browser-isolation/components
+	rm -rf content/cloudflare-one/components
+	rm -rf content/workers/components
+	rm -rf content/pages/components
+	@git add content
+	@git commit -m "remove component dirs"
