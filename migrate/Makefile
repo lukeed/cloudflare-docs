@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~18 --hard
+	git reset HEAD~19 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
@@ -32,6 +32,12 @@ run:
 	cp ../docs-hugo/config.toml .
 	git add config.toml
 	@git commit -m "import config.toml file"
+
+	@echo "\n~> copying /.vscode dir"
+	cp ../docs-hugo/.editorconfig .
+	cp -rf ../docs-hugo/.vscode .
+	git add .vscode .editorconfig
+	@git commit -m "import .vscode dir"
 
 	@echo "\n~> copying /layouts directory"
 	cp ../docs-hugo/package.json .
