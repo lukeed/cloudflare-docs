@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~17 --hard
+	git reset HEAD~18 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
@@ -12,6 +12,9 @@ run:
 	cp -rf ../docs-hugo/migrate .
 	git add migrate
 	@git commit -m "import migrate directory"
+
+	@echo "\n~> creating /product-icons directory"
+	@node create-svg-files.js
 
 	cd migrate && pnpm i && pnpm migrate
 
@@ -62,3 +65,8 @@ run:
 	@git commit -m "remove component dirs"
 
 	@echo "\n\n---\nRUN CURLs for STYLESHEETS~!\n---\n\n"
+
+
+test:
+	pnpm i
+	hugo serve -D

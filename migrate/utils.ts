@@ -13,6 +13,7 @@ export const ROOT = join(__dirname, '..');
 
 // directories :: gatsby
 export const SITE = join(ROOT, 'developers.cloudflare.com');
+export const PRODUCTICONS = join(ROOT, 'product-icons');
 export const PRODUCTS = join(ROOT, 'products');
 
 // directories :: hugo

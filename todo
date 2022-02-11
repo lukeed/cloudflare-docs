@@ -11,11 +11,13 @@ CONVERT
 MIGRATE / AUTOMATE
 ---
 - [ ] component/partial imports
-- [ ] stylesheets
+- [-] stylesheets (manual)
 - [ ] robots.txt
 - [ ] sitemaps
-- [ ] product grid data
 - [ ] icons/images?
+- [x] product grid data
+- [ ] rm -rf developers.cloudflare.com
+
 
 FUTURE
 ---

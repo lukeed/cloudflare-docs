@@ -14,9 +14,43 @@ const { PRODUCTS, CONTENT, STATIC, DATA } = $;
 const isMDX = /\.mdx?$/i;
 
 $.log('~> creating empty directories');
-await $.mkdir(CONTENT);
-await $.mkdir(STATIC);
 await $.mkdir(DATA);
+await $.mkdir(STATIC);
+await $.mkdir(CONTENT).then(async () => {
+  $.log('~> creating homepage product grid');
+
+  let { products } = $.require(
+    join($.SITE, 'current-products-list.js')
+  );
+
+  let inject = '';
+  for (let obj of products) {
+    let href = obj.href || `/${obj.path}/`;
+
+    let item = `  {{<product-link title="${obj.title}" href="${href}"`;
+    if (obj.wrap) item += ' wrap="true"';
+    item += '>}}';
+
+    let icon = join($.PRODUCTICONS, obj.icon + '.svg');
+    item += '\n    ' + await $.read(icon, 'utf8');
+
+    item += '\n  {{</product-link>}}';
+    if (inject) inject += '\n\n';
+    inject += item;
+  }
+
+  await $.rm($.PRODUCTICONS, { recursive: true });
+  let template = join($.__dirname, 'template.html');
+  let html = await $.read(template, 'utf8');
+
+  await $.write(
+    join(CONTENT, '_index.html'),
+    html.replace('{{~~GRID~~}}', inject.trim())
+  );
+});
+
+await $.git(`add content`);
+await $.git(`commit -m "create homepage"`);
 
 // Move "products/*/src/content" ~> "content/**"
 // Normalize "static|images" subdir location
