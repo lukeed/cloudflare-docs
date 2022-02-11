@@ -127,6 +127,24 @@ await $.walk(CONTENT, {
 await $.git(`add content`);
 await $.git(`commit -m "mdx -> hugo partials"`);
 
+// index.md -> _index.md for content dirs w/ 1+ siblings
+await $.walk(CONTENT, {
+  async task({ name, dir, file, list }) {
+    if (name !== 'index.md') return;
+    let keep = list.filter(x => (
+      !/^(index.md|static|images|media)$/.test(x)
+      && (/\.md$/.test(x) || !/\w+\.\w+$/.test(x))
+    ));
+    if (keep.length > 0) {
+      await $.cp(file, join(dir, '_index.md'));
+      await $.rm(file);
+    }
+  }
+});
+
+await $.git(`add content`);
+await $.git(`commit -m "rename list pages to _index.md"`);
+
 // --- others ---
 
 await $.rm(PRODUCTS, { recursive: true });

@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~16 --hard
+	git reset HEAD~17 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
@@ -60,3 +60,5 @@ run:
 	rm -rf content/pages/components
 	@git add content
 	@git commit -m "remove component dirs"
+
+	@echo "\n\n---\nRUN CURLs for STYLESHEETS~!\n---\n\n"
