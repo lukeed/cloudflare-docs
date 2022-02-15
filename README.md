@@ -1,10 +1,58 @@
 # Cloudflare Docs
 
-**[View the docs →](https://developers.cloudflare.com/docs/)**
+**[View the docs →](https://developers.cloudflare.com/)**
 
-[Contribute to the docs](https://developers.cloudflare.com/docs-engine/contributing/to-cloudflare-docs)
+[Contribute to the docs](https://github.com/cloudflare/cloudflare-docs/blob/production/CONTRIBUTING.md)
 
-[Set up local development](https://developers.cloudflare.com/docs-engine/contributing/development-setup)
+## Getting started
+
+**Cloning the repository and installing dependencies**
+
+First, clone the repo to your local machine:
+
+```sh
+$ git clone git@github.com:cloudflare/cloudflare-docs.git
+$ cd cloudflare-docs
+```
+
+The cloudflare-docs repo is built with [Hugo](https://gohugo.io), a static site generator tool written in Go. Hugo has pre-built binaries for most operating systems and platforms - below is instructions on how to install Hugo in macOS - complete guides to installing Hugo on other platforms can be found at ["Install Hugo"](https://gohugo.io/getting-started/installing).
+
+**The minimum required Hugo version for this project is 0.xx.**
+
+```sh
+# Install Homebrew
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install hugo
+$ brew install hugo
+```
+
+Finally, you'll need to install some NPM packages that the docs use when compiling frontend JavaScript code:
+
+```sh
+$ npm install
+```
+
+If you don't have NPM installed locally, we recommend installing [Volta](https://github.com/volta-cli/volta) as your Node version manager, and installing the latest version of Node:
+
+```sh
+$ curl https://get.volta.sh | bash
+$ volta install node@latest
+```
+
+**Developing/writing content**
+
+To develop the docs locally, including writing new content, you can use the `dev` command, which includes live previewing and reloading of content:
+
+```sh
+$ npm run dev
+```
+
+To build the site as it will build during deployment, you can use the `build` command:
+
+```sh
+$ npm run build
+```
 
 ## For Cloudflare employees
 
@@ -53,12 +101,7 @@ To get write access to this repo, please reach out to the **Developer Docs** roo
 
 ### Deployment
 
-Each [product](https://github.com/cloudflare/cloudflare-docs/tree/production/products)’s docs are automatically deployed via [@cloudflare/wrangler](https://github.com/cloudflare/wrangler) using GitHub Actions to both testing and production environments:
-
-```txt
-TEST: https://$pathPrefix.cloudflare-docs.workers.dev/$pathPrefix/
-PROD: https://developers.cloudflare.com/$pathPrefix/
-```
+Our docs are deployed using [Cloudflare Pages](https://pages.cloudflare.com). Every commit pushed to production will automatically deploy to [developers.cloudflare.com](https://developers.cloudflare.com), and any pull requests opened will have a corresponding staging URL available in the pull request comments.
 
 ### License and Legal Notices
 
