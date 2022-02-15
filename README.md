@@ -17,7 +17,7 @@ $ cd cloudflare-docs
 
 The cloudflare-docs repo is built with [Hugo](https://gohugo.io), a static site generator tool written in Go. Hugo has pre-built binaries for most operating systems and platforms - below is instructions on how to install Hugo in macOS - complete guides to installing Hugo on other platforms can be found at ["Install Hugo"](https://gohugo.io/getting-started/installing).
 
-**The minimum required Hugo version for this project is 0.xx.**
+**The minimum required Hugo version for this project is 0.92**
 
 ```sh
 # Install Homebrew
