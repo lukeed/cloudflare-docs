@@ -4,100 +4,50 @@
 
 [Contribute to the docs](https://github.com/cloudflare/cloudflare-docs/blob/production/CONTRIBUTING.md)
 
-## Getting started
+## Setup
 
-**Cloning the repository and installing dependencies**
+You must have [Hugo](https://gohugo.io) installed on your system and available in your `$PATH` as a global binary. Most operating systems are supported – follow the relevant [Install Hugo](https://gohugo.io/getting-started/installing) instructions for your operating system guides to get started.
 
-First, clone the repo to your local machine:
+> **Important:** This project is built with version `0.92.0+extended` and is the minimum required version. You may (probably) use a newer version of Hugo, but will be subject to any Hugo changes.
 
-```sh
-$ git clone git@github.com:cloudflare/cloudflare-docs.git
-$ cd cloudflare-docs
-```
-
-The cloudflare-docs repo is built with [Hugo](https://gohugo.io), a static site generator tool written in Go. Hugo has pre-built binaries for most operating systems and platforms - below is instructions on how to install Hugo in macOS - complete guides to installing Hugo on other platforms can be found at ["Install Hugo"](https://gohugo.io/getting-started/installing).
-
-**The minimum required Hugo version for this project is 0.92**
+You must also have a recent version of Node.js (14+) installed. You may use [Volta](https://github.com/volta-cli/volta), a Node version manager, to install the latest version of Node and `npm`, which is a package manager that is included with `node`'s installation.
 
 ```sh
-# Install Homebrew
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Install hugo
-$ brew install hugo
+$ curl https://get.volta.sh | bash
+$ volta install node
 ```
 
-Finally, you'll need to install some NPM packages that the docs use when compiling frontend JavaScript code:
+Finally, you will need to install the Node.js dependencies for this project using npm or another package manager:
 
 ```sh
 $ npm install
 ```
 
-If you don't have NPM installed locally, we recommend installing [Volta](https://github.com/volta-cli/volta) as your Node version manager, and installing the latest version of Node:
+## Development
 
-```sh
-$ curl https://get.volta.sh | bash
-$ volta install node@latest
-```
-
-**Developing/writing content**
-
-To develop the docs locally, including writing new content, you can use the `dev` command, which includes live previewing and reloading of content:
+When making changes to the site, including any content changes, you may run a local development server by running the following command:
 
 ```sh
 $ npm run dev
 ```
 
-To build the site as it will build during deployment, you can use the `build` command:
+This spawns a server that will be accessible via `http://localhost:1313` in your browser. Additionally, any changes made within the project – including `content/**` changes – will automatically reload your browser tab(s), allowing you to instantly preview your changes!
+
+Additionally, this project includes a CI step for ensuring consistent code style. This applies to all files within the project, including markdown (`*.md`) files, but will not affect the content itself or the content's output display. To see the style error(s), you may run:
 
 ```sh
-$ npm run build
+$ npm run lint
+```
+
+Finally, some of these code-style errors may be fixed automatically. To do so, you may run:
+
+```sh
+$ npm run format
 ```
 
 ## For Cloudflare employees
 
 To get write access to this repo, please reach out to the **Developer Docs** room in chat.
-
-## Products
-
-| Product                         | Production URL                                                            |
-| :------------------------------ | :------------------------------------------------------------------------ |
-| 1.1.1.1                         | [Prod](https://developers.cloudflare.com/1.1.1.1)                         |
-| Analytics                       | [Prod](https://developers.cloudflare.com/analytics)                       |
-| API                             | [Prod](https://developers.cloudflare.com/api)                             |
-| Automatic Platform Optimization | [Prod](https://developers.cloudflare.com/automatic-platform-optimization) |
-| Bots                            | [Prod](https://developers.cloudflare.com/bots)                            |
-| BYOIP                           | [Prod](https://developers.cloudflare.com/byoip)                           |
-| Cloudflare One                  | [Prod](https://developers.cloudflare.com/cloudflare-one)                  |
-| DDoS Protection                 | [Prod](https://developers.cloudflare.com/ddos-protection)                 |
-| Distributed Web Gateway         | [Prod](https://developers.cloudflare.com/distributed-web)                 |
-| Docs Engine                     | [Prod](https://developers.cloudflare.com/docs-engine)                     |
-| Email Routing                   | [Prod](https://developers.cloudflare.com/email-routing)                   |
-| Events                          | [Prod](https://developers.cloudflare.com/events)                          |
-| Firewall                        | [Prod](https://developers.cloudflare.com/firewall)                        |
-| Fundamentals                    | [Prod](https://developers.cloudflare.com/fundamentals)                    |
-| HTTP/3                          | [Prod](https://developers.cloudflare.com/http3)                           |
-| Image Optimization              | [Prod](https://developers.cloudflare.com/images)                          |
-| Load Balancing                  | [Prod](https://developers.cloudflare.com/load-balancing)                  |
-| Logs                            | [Prod](https://developers.cloudflare.com/logs)                            |
-| Magic Firewall                  | [Prod](https://developers.cloudflare.com/magic-firewall)                  |
-| Magic Transit                   | [Prod](https://developers.cloudflare.com/magic-transit)                   |
-| Network Interconnect            | [Prod](https://developers.cloudflare.com/network-interconnect)            |
-| Pages                           | [Prod](https://developers.cloudflare.com/pages)                           |
-| Railgun                         | [Prod](https://developers.cloudflare.com/railgun)                         |
-| Randomness Beacon               | [Prod](https://developers.cloudflare.com/randomness-beacon)               |
-| Registrar                       | [Prod](https://developers.cloudflare.com/registrar)                       |
-| Rules                           | [Prod](https://developers.cloudflare.com/rules)                           |
-| Ruleset Engine                  | [Prod](https://developers.cloudflare.com/ruleset-engine)                  |
-| Spectrum                        | [Prod](https://developers.cloudflare.com/spectrum)                        |
-| SSL                             | [Prod](https://developers.cloudflare.com/ssl)                             |
-| Stream                          | [Prod](https://developers.cloudflare.com/stream)                          |
-| Tenant                          | [Prod](https://developers.cloudflare.com/tenant)                          |
-| Terraform                       | [Prod](https://developers.cloudflare.com/terraform)                       |
-| Time Services                   | [Prod](https://developers.cloudflare.com/time-services)                   |
-| WAF                             | [Prod](https://developers.cloudflare.com/waf)                             |
-| WARP Client                     | [Prod](https://developers.cloudflare.com/warp-client)                     |
-| Workers                         | [Prod](https://developers.cloudflare.com/workers)                         |
 
 ### Deployment
 
