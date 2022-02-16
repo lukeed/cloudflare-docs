@@ -1,7 +1,7 @@
 import prettier from 'prettier';
 import * as fs from 'fs/promises';
 import * as thread from 'worker_threads';
-import { langs } from '../config/prism';
+import { langs } from './prism.config';
 
 export interface Result {
   file: string;

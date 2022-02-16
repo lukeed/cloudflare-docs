@@ -1,7 +1,7 @@
 import prettier from 'prettier';
 import * as fs from 'fs/promises';
 import { join, resolve } from 'path';
-import { langs } from '../config/prism';
+import { langs } from './prism.config';
 import { options } from './prettier.config';
 
 const ROOT = resolve('.');
