@@ -1,7 +1,7 @@
-import prettier from 'prettier';
 import * as fs from 'fs/promises';
 import { join, resolve } from 'path';
 import { Callback, Pool } from './pool';
+import { options } from './prettier.config';
 
 import type { Result } from './worker';
 
@@ -12,9 +12,6 @@ const isSILENT = process.argv.includes('--quiet');
 const isCHECK = process.argv.includes('--check');
 
 const isFILE = /\.(mdx?|[mc]?[tj]sx?|json|ya?ml|s?css)$/;
-
-const rcfile = join(ROOT, '.prettierrc');
-const options: prettier.Options = JSON.parse(await fs.readFile(rcfile, 'utf8'));
 
 // Unknown languages / missing parsers
 const Missing = new Set<string>();
