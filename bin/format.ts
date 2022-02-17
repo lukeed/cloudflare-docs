@@ -1,7 +1,8 @@
 import prettier from 'prettier';
 import * as fs from 'fs/promises';
 import { join, resolve } from 'path';
-import { langs } from '../config/prism';
+import { langs } from './prism.config';
+import { options } from './prettier.config';
 
 const ROOT = resolve('.');
 const ROOTLEN = ROOT.length + 1;
@@ -13,9 +14,6 @@ const isBAIL = process.argv.includes('--bail');
 const isMD = /\.md$/;
 const isFILE = /\.([mc]?[tj]sx?|json|ya?ml|s?css)$/;
 const YAML = /^\s*(---[^]+(?:---\r?\n))/;
-
-const rcfile = join(ROOT, '.prettierrc');
-const options: prettier.Options = JSON.parse(await fs.readFile(rcfile, 'utf8'));
 
 // Unknown languages / missing parsers
 const Missing = new Set<string>();

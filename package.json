@@ -6,9 +6,11 @@
   "description": "Cloudflare Developer Docs",
   "scripts": {
     "dev": "hugo serve -D",
-    "build": "hugo --minify",
     "format": "tsm bin/format.ts",
-    "lint": "tsm bin/format.ts --check"
+    "lint": "tsm bin/format.ts --check",
+    "prebuild": "tsm bin/highlight.ts replace",
+    "build": "hugo --minify",
+    "postbuild": "tsm bin/highlight.ts restore"
   },
   "dependencies": {
     "fromnow": "3.0.1"
