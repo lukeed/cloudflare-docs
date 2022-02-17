@@ -246,8 +246,8 @@ export function highlight(code: string, lang: string): string {
   if (theme === 'light') output += ' CodeBlock-is-light-in-light-theme';
   output += ` CodeBlock--language-${lang}" language="${lang}">`;
 
-  if (frontmatter.header) output += `<span className="CodeBlock--header">${frontmatter.header}</span>`;
-  else if (frontmatter.filename) output += `<span className="CodeBlock--filename">${frontmatter.filename}</span>`;
+  if (frontmatter.header) output += `<span class="CodeBlock--header">${frontmatter.header}</span>`;
+  else if (frontmatter.filename) output += `<span class="CodeBlock--filename">${frontmatter.filename}</span>`;
 
   output += '<code>';
   output += '<span class="CodeBlock--rows">';
