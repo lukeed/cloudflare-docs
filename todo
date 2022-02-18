@@ -6,14 +6,14 @@ CONVERT
 - [ ] (baseof) sitemap, manifest, etc
 - [x] developers.cloudflare homepage
 - [x] product grid css responsive
-
+- [ ] 404 page
 
 MIGRATE / AUTOMATE
 ---
 - [ ] component/partial imports
 - [-] stylesheets (manual)
-- [ ] robots.txt
-- [ ] sitemaps
+- [x] robots.txt
+- [x] sitemaps
 - [ ] icons/images?
 - [x] product grid data
 - [ ] rm -rf developers.cloudflare.com

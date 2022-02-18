@@ -179,6 +179,21 @@ await $.walk(CONTENT, {
 await $.git(`add content`);
 await $.git(`commit -m "rename list pages to _index.md"`);
 
+// Copy over `robots.txt` file, w/ mods
+await $.read(join($.SITE, 'static/robots.txt'), 'utf8').then(async raw => {
+  // moving from ~tons~ of sitemaps -> one sitemap
+  let index = raw.indexOf('Sitemap:');
+  let keep = raw.substring(0, index);
+
+  await $.write(
+    join($.STATIC, 'robots.txt'),
+    keep + `Sitemap: https://developers.cloudflare.com/sitemap.xml\n`
+  );
+
+  await $.git(`add static`);
+  await $.git(`commit -m "import robots.txt file"`);
+});
+
 // --- others ---
 
 await $.rm(PRODUCTS, { recursive: true });

@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~19 --hard
+	git reset HEAD~21 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
