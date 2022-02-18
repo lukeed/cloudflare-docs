@@ -8,7 +8,9 @@ CONVERT
 - [ ] (baseof) icons
 - [x] developers.cloudflare homepage
 - [x] product grid css responsive
+- [ ] twitter timeline on homepage
 - [x] 404 page
+- [x] /docs page
 
 MIGRATE / AUTOMATE
 ---
@@ -18,6 +20,7 @@ MIGRATE / AUTOMATE
 - [x] sitemaps
 - [ ] icons/images?
 - [x] 404 page
+- [x] /docs page
 - [x] product grid data
 - [ ] rm -rf developers.cloudflare.com
 

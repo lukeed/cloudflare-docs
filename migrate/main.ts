@@ -23,7 +23,7 @@ await $.mkdir(CONTENT).then(async () => {
     join($.SITE, 'current-products-list.js')
   );
 
-  let inject = '';
+  let grid = '';
   for (let obj of products) {
     let href = obj.href || `/${obj.path}/`;
 
@@ -35,22 +35,33 @@ await $.mkdir(CONTENT).then(async () => {
     item += '\n    ' + await $.read(icon, 'utf8');
 
     item += '\n  {{</product-link>}}';
-    if (inject) inject += '\n\n';
-    inject += item;
+    if (grid) grid += '\n\n';
+    grid += item;
   }
 
+  grid = grid.trim();
+
   await $.rm($.PRODUCTICONS, { recursive: true });
-  let template = join($.__dirname, 'template.html');
-  let html = await $.read(template, 'utf8');
+
+  let template = join($.__dirname, 'template.index.html');
+  let index = await $.read(template, 'utf8');
+
+  template = join($.__dirname, 'template.docs.html');
+  let docs = await $.read(template, 'utf8');
 
   await $.write(
     join(CONTENT, '_index.html'),
-    html.replace('{{~~GRID~~}}', inject.trim())
+    index.replace('{{~~GRID~~}}', grid)
+  );
+
+  await $.write(
+    join(CONTENT, 'docs.html'),
+    docs.replace('{{~~GRID~~}}', grid)
   );
 });
 
 await $.git(`add content`);
-await $.git(`commit -m "create homepage"`);
+await $.git(`commit -m "create _index.html & docs.html"`);
 
 // Move "products/*/src/content" ~> "content/**"
 // Normalize "static|images" subdir location
