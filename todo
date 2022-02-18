@@ -3,7 +3,9 @@ CONVERT
 - [ ] components convert (_components and DirectoryListing)
 - [x] update all code snippets --> customize output? probabyl not, change css instead
 - [ ] (baseof) icons / static product images
-- [ ] (baseof) sitemap, manifest, etc
+- [x] (baseof) sitemap
+- [ ] (baseof) manifest
+- [ ] (baseof) icons
 - [x] developers.cloudflare homepage
 - [x] product grid css responsive
 - [ ] 404 page

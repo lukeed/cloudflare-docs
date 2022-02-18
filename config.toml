@@ -18,6 +18,11 @@ rssLimit = 10
 paginate = 12 # default 10
 paginatePath = "page" # default
 
+[sitemap]
+  changefreq = "daily"
+  filename = "sitemap.xml"
+  priority = 0.7
+
 [markup]
 	[markup.goldmark]
 		[markup.goldmark.renderer]
