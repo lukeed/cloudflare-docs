@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~21 --hard
+	git reset HEAD~23 --hard
 	git clean -xdf
 	cp ../docs-hugo/migrate/Makefile .
 
@@ -17,6 +17,13 @@ run:
 	@node create-svg-files.js
 
 	cd migrate && pnpm i && pnpm migrate
+
+# TODO: remove _headers
+	@echo "\n~> copying content/* static files"
+	cp ../docs-hugo/content/404.html content/.
+	cp ../docs-hugo/content/_headers content/.
+	git add content
+	@git commit -m "import static content files"
 
 	@echo "\n~> copying /assets directory"
 	cp -rf ../docs-hugo/assets .

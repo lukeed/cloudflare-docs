@@ -17,6 +17,7 @@ MIGRATE / AUTOMATE
 - [x] robots.txt
 - [x] sitemaps
 - [ ] icons/images?
+- [x] 404 page
 - [x] product grid data
 - [ ] rm -rf developers.cloudflare.com
 
