@@ -1,0 +1,37 @@
+.magic-box-clear {
+  top: 15px;
+}
+
+.CoveoSearchInterface .magic-box .magic-box-input,
+.CoveoSearchInterface .magic-box .magic-box-clear,
+.CoveoDynamicFacet,
+.CoveoDynamicFacetRange, 
+.CoveoDynamicHierarchicalFacet,
+.CoveoSearchInterface input {
+  background: transparent !important;
+}
+
+.CoveoSearchInterface, .CoveoSearchInterface input[type=text],
+.CoveoSearchInterface .magic-box,
+.CoveoSearchInterface .magic-box-clear-svg,
+.CoveoSearchInterface .coveo-search-button-svg,
+.CoveoSearchButton,
+.CoveoFieldValue .coveo-field-caption,
+.coveo-checkbox-label,
+.coveo-dynamic-facet-value .coveo-checkbox-span-label-suffix,
+.coveo-dynamic-facet-header-title,
+.coveo-dynamic-facet-header-btn,
+.coveo-dynamic-facet-show-more,
+.coveo-accessible-button,
+.coveo-dynamic-facet-breadcrumb-collapse,
+.coveo-dynamic-facet-breadcrumb-value
+{
+  color: inherit !important;
+}
+
+[theme="dark"] .CoveoResult a.CoveoResultLink, [theme="dark"] .CoveoResultLink, [theme="dark"] a.CoveoResultLink {
+  --background-color-alpha: 0.03 !important;
+  --border-bottom-color-rgb: var(--orange-rgb) !important;
+  --border-bottom-color-alpha: 0.35 !important;
+  color: var(--code-orange) !important;
+}
