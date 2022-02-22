@@ -43,3 +43,10 @@
 .DocsMarkdown ul {
   list-style: none !important;
 }
+
+.coveo-dynamic-facet-header h2 {
+  margin-top: 0 !important;
+  line-height: 35px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
