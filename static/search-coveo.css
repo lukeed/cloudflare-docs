@@ -22,16 +22,24 @@
 .coveo-dynamic-facet-header-title,
 .coveo-dynamic-facet-header-btn,
 .coveo-dynamic-facet-show-more,
-.coveo-accessible-button,
+
 .coveo-dynamic-facet-breadcrumb-collapse,
 .coveo-dynamic-facet-breadcrumb-value
 {
   color: inherit !important;
 }
 
-[theme="dark"] .CoveoResult a.CoveoResultLink, [theme="dark"] .CoveoResultLink, [theme="dark"] a.CoveoResultLink {
+[theme="dark"] .CoveoResult a.CoveoResultLink, 
+[theme="dark"] .CoveoResultLink, 
+[theme="dark"] a.CoveoResultLink,
+[theme="dark"] .coveo-accessible-button.coveo-clickable
+{
   --background-color-alpha: 0.03 !important;
   --border-bottom-color-rgb: var(--orange-rgb) !important;
   --border-bottom-color-alpha: 0.35 !important;
   color: var(--code-orange) !important;
+}
+
+.DocsMarkdown ul {
+  list-style: none !important;
 }

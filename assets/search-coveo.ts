@@ -36,7 +36,7 @@ function loadCustomSearchBox() {
     coveo.Initialization.registerAutoCreateComponent(CustomSearchbox);
   })(coveo.Component);
 
-  coveo.SearchEndpoint.configureCloudEndpoint('cloudflareproduction7iy98g48', 'xx37b7bfe4-2b6c-4720-a42a-11e9e88f5315');
+  coveo.SearchEndpoint.configureCloudEndpoint('cloudflarenonproduction1bqz82hwh', 'xx59d99d0b-6982-495a-b1b9-ec1947377046');
   coveo.initSearchbox($('.CoveoSearchInterface'), "/search")
 
   addEventListener('keydown', ev => {

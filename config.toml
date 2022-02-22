@@ -12,6 +12,9 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
 enableEmoji = true
 enableGitInfo = true
 
+coveoEndpoint = "cloudflarenonproduction1bqz82hwh"
+coveoToken = "xx59d99d0b-6982-495a-b1b9-ec1947377046"
+
 # TODO
 rssLimit = 10
 
