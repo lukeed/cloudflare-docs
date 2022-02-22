@@ -248,7 +248,7 @@ export function attributes(attrs: string) {
   return attrs
     .replace(/[ ]/g, ' ') // <<< REMOVE WEIRD SPACES!
     .replace(/\s+[a]\s+href/g, ' ') // eg; <button a href="...">
-    .replace(/(\s+?)([^=]+)\=(["'])([^\3]+)\3/g, (_, ws, name, q, value) => ws + `${name.trim()}="${value}"`);
+    .replace(/(\s+?)([^=]+)\=(["'])([^'"]+)['"]/g, (_, ws, name, q, value) => ws + `${name.trim()}="${value}"`);
 }
 
 export function rewrite(content: string, tag: string, partial: string) {
