@@ -50,7 +50,11 @@
     {{- $script = $script | minify | fingerprint "md5" -}}
   {{- end -}}
 
-  <script src="{{ $script.RelPermalink }}" defer></script>
+  <script 
+    src="{{ $script.RelPermalink }}" defer
+    data-org="{{ $.Context.Site.Params.coveo.org }}"
+    data-token="{{ $.Context.Site.Params.coveo.token }}"
+    ></script>
 {{- else if $DATA.algolia -}}
   <script defer async src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.js"></script>
 
