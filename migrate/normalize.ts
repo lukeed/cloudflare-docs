@@ -144,7 +144,17 @@ export async function content(file: string) {
     },
 
     image(node: MDAST.Image) {
-      if (!/^(\/|(..\/){1,})/.test(node.url)) return;
+      if (node.url.startsWith('./media/')) {
+        node.url = '.' + node.url;
+        return; // "./media/" ~> "../media/"
+      }
+
+      if (node.url.startsWith('media/')) {
+        node.url = '../' + node.url;
+        return; // "media/" ~> "../media/"
+      }
+
+      if (!/^(\/|(..?\/){1,})/.test(node.url)) return;
 
       let { pathname } = new URL(node.url, ORIGIN);
 
