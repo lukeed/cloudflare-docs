@@ -36,7 +36,7 @@ function loadCustomSearchBox() {
     coveo.Initialization.registerAutoCreateComponent(CustomSearchbox);
   })(coveo.Component);
 
-  coveo.SearchEndpoint.configureCloudEndpoint('cloudflarenonproduction1bqz82hwh', 'xx59d99d0b-6982-495a-b1b9-ec1947377046');
+  coveo.SearchEndpoint.configureCloudV2Endpoint('cloudflarenonproduction1bqz82hwh', 'xx59d99d0b-6982-495a-b1b9-ec1947377046');
   coveo.initSearchbox($('.CoveoSearchInterface'), "/search")
 
   addEventListener('keydown', ev => {
@@ -55,7 +55,7 @@ function loadCustomSearchBox() {
 
 function loadSearchResults() {
   // The following line shows you how you could configure an endpoint against which to perform your search.
-  coveo.SearchEndpoint.configureCloudEndpoint('cloudflarenonproduction1bqz82hwh', 'xx59d99d0b-6982-495a-b1b9-ec1947377046');
+  coveo.SearchEndpoint.configureCloudV2Endpoint('cloudflarenonproduction1bqz82hwh', 'xx59d99d0b-6982-495a-b1b9-ec1947377046');
 
   // Initialize the framework by targeting the root in the interface.
   // It does not have to be the document body.
