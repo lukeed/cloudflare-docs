@@ -36,7 +36,6 @@
 
 <link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
 
-<!-- useCoveo := false will reenable Algolia search -->
 {{- $coveo := index $.Context.Site.Params "coveo" -}}
 {{- if $coveo -}}
   <link rel="stylesheet" href="/search-coveo.css"/>
