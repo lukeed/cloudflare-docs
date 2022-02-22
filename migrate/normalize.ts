@@ -310,12 +310,11 @@ export async function imports(file: string) {
   let output = '';
   let last = 0;
 
-  if (!/(^|;\s*|\r?\n+)import\s*/.test(data)) {
-    return; // skip, nothing here
-  }
+  // check if potential work to be done
+  if (!data.includes('import')) return;
 
   // @see lukeed/rewrite-imports
-  let rgx = /(^|;\s*|\r?\n+)import\s*((?:\*\s*as)?\s*([a-z$_][\w$]*)?\s*,?\s*(?:{([\s\S]*?)})?)?\s*(from)?\s*(['"`][^'"`]+['"`])(?=;?)(?=([^"'`]*["'`][^"'`]*["'`])*[^"'`]*$)/gi;
+  let rgx = /(^|;\s*|\r?\n+)import\s*(\s*([a-z$_][\w$]*)?\s*)?\s*(from)?\s*(['"`][^'"`]+["'`])/gi;
 
   let ticks = /[`]{3}/g;
   let fences: number[] = [];
@@ -331,7 +330,8 @@ export async function imports(file: string) {
   let replacements = new Map<RegExp, string>();
 
   loop: while (tmp = rgx.exec(data)) {
-    let [raw, ws, _, base, req, fro, dep] = tmp;
+    let [raw, ws, _, base, fro, dep] = tmp;
+
 
     // skip imports within any code snippets
     for (pos=tmp.index, i=0; i < fences.length; i+=2) {
@@ -353,6 +353,7 @@ export async function imports(file: string) {
       replace = new RegExp('\\<' + base + '\\s*[/]?>', 'g');
     } else if (!!~(idx = dep.indexOf('images/'))) {
       let [, product] = PRODNAME.exec(file) || [];
+
       inject = `"/${product}/static/${dep.substring(idx + 7)}"`;
       replace = new RegExp('\\{\\s*' + base + '\\s*\\}');
     }
