@@ -302,8 +302,7 @@ export async function mdx(file: string) {
   await $.write(file, data);
 }
 
-// Rewrite "/_partials/" imports
-// @NOTE: Luckily all imports are before first code snippet
+// Rewrite "/_partials/", "/components/", and "/images/" imports
 export async function imports(file: string) {
   let tmp: RegExpExecArray | null;
   let data = await $.read(file, 'utf8');
@@ -356,6 +355,14 @@ export async function imports(file: string) {
 
       inject = `"/${product}/static/${dep.substring(idx + 7)}"`;
       replace = new RegExp('\\{\\s*' + base + '\\s*\\}');
+    } else if (!!~(idx = dep.indexOf('components/'))) {
+      let nxt = dep.substring(idx + 11);
+      if (!nxt.endsWith('.html')) nxt += '.html';
+
+      inject = `{{<render file="${nxt}"$1>}}`;
+      replace = new RegExp('\\<' + base + '(\\s*|\\s+[^\\/\\>]+)[/]?>', 'g');
+
+      console.log('[TODO]', { file, dep });
     }
 
     if (inject) {

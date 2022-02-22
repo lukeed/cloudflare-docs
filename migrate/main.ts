@@ -179,7 +179,7 @@ await $.walk(CONTENT, {
 });
 
 await $.git(`add content`);
-await $.git(`commit -m "rewrite partial imports"`);
+await $.git(`commit -m "rewrite partial & component imports"`);
 
 // index.md -> _index.md for content dirs w/ 1+ siblings
 await $.walk(CONTENT, {
