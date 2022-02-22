@@ -331,18 +331,28 @@ export async function imports(file: string) {
     }
 
     let inject = '';
+    let replace: RegExp;
+    dep = dep.replace(/[\\"']/g, '');
     let idx = dep.indexOf('_partials/');
 
     if (!!~idx) {
-      let nxt = dep.substring(idx + 10).replace(/[\\"]/g, '');
+      let nxt = dep.substring(idx + 10);
       if (!nxt.endsWith('.md')) nxt += '.md';
+
       inject = `{{<render file="${nxt}">}}`;
+      replace = new RegExp('\\<' + base + '\\s*[/]?>', 'g');
+    } else if (!!~(idx = dep.indexOf('images/'))) {
+      let [, product] = PRODNAME.exec(file) || [];
+      inject = `"/${product}/static/${dep.substring(idx + 7)}"`;
+      replace = new RegExp('\\{\\s*' + base + '\\s*\\}');
     }
 
     if (inject) {
-      replacements.set(new RegExp('\\<' + base + '\\s*[/]?>', 'g'), inject);
+      replacements.set(replace!, inject);
       output += data.substring(last, pos);
       last = pos + raw.length;
+    } else {
+      console.warn('Missing import handler in "%s" file', file.substring($.ROOT.length + 1), { dep, base });
     }
   }
 
