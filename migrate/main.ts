@@ -172,6 +172,15 @@ await $.walk(CONTENT, {
 await $.git(`add content`);
 await $.git(`commit -m "mdx -> hugo partials"`);
 
+await $.walk(CONTENT, {
+  async task({ file }) {
+    await normalize.imports(file);
+  }
+});
+
+await $.git(`add content`);
+await $.git(`commit -m "rewrite partial imports"`);
+
 // index.md -> _index.md for content dirs w/ 1+ siblings
 await $.walk(CONTENT, {
   async task({ name, dir, file, list }) {

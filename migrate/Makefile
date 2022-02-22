@@ -1,15 +1,15 @@
 reset:
 	cd ..
-	git reset HEAD~23 --hard
+	git reset HEAD~25 --hard
 	git clean -xdf
-	cp ../docs-hugo/migrate/Makefile .
+	cp ../docs/migrate/Makefile .
 
 run:
 	git fetch upstream production:production
 	git pull upstream production
 
 	@echo "\n~> copying /migrate directory"
-	cp -rf ../docs-hugo/migrate .
+	cp -rf ../docs/migrate .
 	git add migrate
 	@git commit -m "import migrate directory"
 
@@ -20,47 +20,47 @@ run:
 
 # TODO: remove _headers
 	@echo "\n~> copying content/* static files"
-	cp ../docs-hugo/content/404.html content/.
-	cp ../docs-hugo/content/_headers content/.
+	cp ../docs/content/404.html content/.
+	cp ../docs/content/_headers content/.
 	git add content
 	@git commit -m "import static content files"
 
 	@echo "\n~> copying /assets directory"
-	cp -rf ../docs-hugo/assets .
+	cp -rf ../docs/assets .
 	git add assets
 	@git commit -m "import assets directory"
 
 	@echo "\n~> copying /layouts directory"
-	cp -rf ../docs-hugo/layouts .
+	cp -rf ../docs/layouts .
 	git add layouts
 	@git commit -m "import layouts directory"
 
 	@echo "\n~> copying /config.toml file"
-	cp ../docs-hugo/config.toml .
+	cp ../docs/config.toml .
 	git add config.toml
 	@git commit -m "import config.toml file"
 
 	@echo "\n~> copying /.vscode dir"
-	cp ../docs-hugo/.editorconfig .
-	cp -rf ../docs-hugo/.vscode .
+	cp ../docs/.editorconfig .
+	cp -rf ../docs/.vscode .
 	git add .vscode .editorconfig
 	@git commit -m "import .vscode dir"
 
 	@echo "\n~> copying /layouts directory"
-	cp ../docs-hugo/package.json .
+	cp ../docs/package.json .
 	rm *.js
 	git add package.json *.js
 	@git commit -m "update root files"
 
 	@echo "\n~> updating .github/workflows directory"
 	rm -rf .github/workflows
-	cp -rf ../docs-hugo/.github/workflows .github/.
+	cp -rf ../docs/.github/workflows .github/.
 	git add .github
 	@git commit -m "update github actions"
 
 	@echo "\n~> importing Pages build scripts"
-	cp -rf ../docs-hugo/bin .
-	cp ../docs-hugo/Makefile .
+	cp -rf ../docs/bin .
+	cp ../docs/Makefile .
 	git add Makefile bin
 	@git commit -m "import Pages build scripts"
 

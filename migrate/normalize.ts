@@ -291,3 +291,72 @@ export async function mdx(file: string) {
 
   await $.write(file, data);
 }
+
+// Rewrite "/_partials/" imports
+// @NOTE: Luckily all imports are before first code snippet
+export async function imports(file: string) {
+  let tmp: RegExpExecArray | null;
+  let data = await $.read(file, 'utf8');
+  let output = '';
+  let last = 0;
+
+  if (!/(^|;\s*|\r?\n+)import\s*/.test(data)) {
+    return; // skip, nothing here
+  }
+
+  // @see lukeed/rewrite-imports
+  let rgx = /(^|;\s*|\r?\n+)import\s*((?:\*\s*as)?\s*([a-z$_][\w$]*)?\s*,?\s*(?:{([\s\S]*?)})?)?\s*(from)?\s*(['"`][^'"`]+['"`])(?=;?)(?=([^"'`]*["'`][^"'`]*["'`])*[^"'`]*$)/gi;
+
+  let ticks = /[`]{3}/g;
+  let fences: number[] = [];
+  while (tmp = ticks.exec(data)) {
+    fences.push(tmp.index);
+  }
+
+  if (fences.length % 2) {
+    throw new Error(`Odd code fences count in "${file}"~!`);
+  }
+
+  let i=0, pos=0;
+  let replacements = new Map<RegExp, string>();
+
+  loop: while (tmp = rgx.exec(data)) {
+    let [raw, ws, _, base, req, fro, dep] = tmp;
+
+    // skip imports within any code snippets
+    for (pos=tmp.index, i=0; i < fences.length; i+=2) {
+      if (pos > fences[i] && pos < fences[i+1]) {
+        continue loop;
+      }
+    }
+
+    let inject = '';
+    let idx = dep.indexOf('_partials/');
+
+    if (!!~idx) {
+      let nxt = dep.substring(idx + 10).replace(/[\\"]/g, '');
+      if (!nxt.endsWith('.md')) nxt += '.md';
+      inject = `{{<render file="${nxt}">}}`;
+    }
+
+    if (inject) {
+      replacements.set(new RegExp('\\<' + base + '\\s*[/]?>', 'g'), inject);
+      output += data.substring(last, pos);
+      last = pos + raw.length;
+    }
+  }
+
+  if (!replacements.size) {
+    return; // no updates
+  }
+
+  if (last < data.length) {
+    output += data.substring(last);
+  }
+
+  for (let [rgx, str] of replacements) {
+    output = output.replace(rgx, str);
+  }
+
+  await $.write(file, output);
+}
