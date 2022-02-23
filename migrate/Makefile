@@ -69,13 +69,10 @@ run:
 	git add migrate
 	@git commit -m "remove migrate directory"
 
-# @echo "\n~> TODO: removing components directories"
-# rm -rf content/browser-isolation/components
-# rm -rf content/cloudflare-one/components
-# rm -rf content/workers/components
-# rm -rf content/pages/components
-# @git add content
-# @git commit -m "remove component dirs"
+	@echo "\n~> removing components directories"
+	find content -name 'components' -type d -exec rm -rf {} \;
+	@git add content
+	@git commit -m "remove component dirs"
 
 	@echo "\n\n---\nRUN CURLs for STYLESHEETS~!\n---\n\n"
 
