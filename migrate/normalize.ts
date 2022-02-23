@@ -291,6 +291,10 @@ export async function mdx(file: string) {
   // ~> {{<table-wrap$1>}}...{{</table-wrap>}}
   data = rewrite(data, 'TableWrap', 'table-wrap');
 
+  // <PropMeta(.*)>...</PropMeta>
+  // ~> {{<prop-meta$1>}}...{{</prop-meta>}}
+  data = rewrite(data, 'PropMeta', 'prop-meta');
+
   // <ContentColumn(.*)>...</ContentColumn>
   // ~> {{<content-column$1>}}...{{</content-column>}}
   data = rewrite(data, 'ContentColumn', 'content-column');
@@ -367,7 +371,7 @@ export async function imports(file: string) {
       inject = `{{<render file="${nxt}"$1>}}`;
       replace = new RegExp('\\<' + base + '(\\s*|\\s+[^\\/\\>]+)[/]?>', 'g');
 
-      console.log('[TODO]', { file, dep });
+      nxt.includes('content') || console.log('[TODO]', { file, dep });
     }
 
     if (inject) {
