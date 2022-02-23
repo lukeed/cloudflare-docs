@@ -1,0 +1,13 @@
+{{- $href := .Get "href" -}}
+
+{{- if not strings.HasPrefix $href .Page.FirstSection }}
+  {{- $href = printf "/%s%s" .Page.FirstSection $href -}}
+{{- end -}}
+
+<a class="DocsMarkdown--link" href="{{ $href }}" data-is-type-link="true">
+  <span class="DocsMarkdown--link-content">
+    <code class="InlineCode InlineCode-is-type">
+      {{- .Page.RenderString | .Inner -}}
+    </code>
+  </span>
+</a>

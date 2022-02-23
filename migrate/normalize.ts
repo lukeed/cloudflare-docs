@@ -307,6 +307,10 @@ export async function mdx(file: string) {
   // ~> {{<content-column$1>}}...{{</content-column>}}
   data = rewrite(data, 'ContentColumn', 'content-column');
 
+  // <TypeLink(.*)>...</TypeLink>
+  // ~> {{<type-link$1>}}...{{</type-link>}}
+  data = rewrite(data, 'TypeLink', 'type-link');
+
   // TODO: other partials ??
 
   // <DirectoryListing/>
