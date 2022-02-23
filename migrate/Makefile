@@ -69,7 +69,6 @@ run:
 	git add migrate
 	@git commit -m "remove migrate directory"
 
-
 # @echo "\n~> TODO: removing components directories"
 # rm -rf content/browser-isolation/components
 # rm -rf content/cloudflare-one/components
@@ -80,7 +79,11 @@ run:
 
 	@echo "\n\n---\nRUN CURLs for STYLESHEETS~!\n---\n\n"
 
+css:
+	curl https://developers.cloudflare.com/styles.5e61057f51b868ffa0e8.css >> static/home.css
+	curl https://developers.cloudflare.com/workers/styles.fb3b557bbbe33544deb0.css >> static/style.css
 
-test:
+
+test: css
 	pnpm i
 	hugo serve -D
