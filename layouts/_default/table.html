@@ -57,8 +57,8 @@
                 {{- if and (not $self) (hasPrefix $x $current) (lt $delta 2) -}}
                   <div class="DocsTutorials--row{{ if false }} DocsTutorials--row-is-new{{ end }}">
                     <div class="DocsTutorials--column" data-column="name">
-                      {{ $link := printf "[%s](%s)" .Title .RelPermalink -}}
-                      {{- .Page.RenderString $link -}}
+                      {{- $href := or .Params.redirect .RelPermalink -}}
+                      {{- .Page.RenderString (printf "[%s](%s)" .Title $href) -}}
                     </div>
 
                     <div class="DocsTutorials--column" data-column="updated">
