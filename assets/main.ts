@@ -16,5 +16,6 @@ timeago.init();
 events.focus();
 events.mobile();
 events.dropdowns();
+events.copy();
 
 contents.toc();

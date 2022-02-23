@@ -20,6 +20,20 @@ export function mobile() {
   });
 }
 
+function $copy(ev: MouseEvent) {
+  let btn = (ev.target as HTMLElement).closest('button');
+  let txt = btn.getAttribute('data-clipboard');
+  if (txt) {
+    try { navigator.clipboard.writeText(txt) }
+    catch (err) { /* no support */ }
+  }
+}
+
+export function copy() {
+  let btns = document.querySelectorAll('button[data-clipboard]');
+  for (let i=0; i < btns.length; i++) btns[i].addEventListener('click', $copy);
+}
+
 // add focus attribute to activeElement if keyboard trigger
 export function focus() {
   let isTAB = false;
