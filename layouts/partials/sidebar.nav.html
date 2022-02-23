@@ -75,8 +75,15 @@
           </li>
           {{ end }}
 
-          {{- range .FirstSection.Pages.ByWeight -}}
-            {{- partial "sidebar.navitem" (dict "Context" . "Depth" 1 "Active" $url) }}
+          {{- $current := .Page.RelPermalink -}}
+          {{- $len := len (split $current "/") -}}
+            {{- range .FirstSection.Pages.ByWeight -}}
+            {{- $x := .RelPermalink -}}
+            {{- $self := eq $x $current -}}
+            {{- $delta := sub (len (split $x "/")) $len -}}
+            {{- if and (hasPrefix $x $current) (lt $delta 2) -}}
+              {{- partial "sidebar.navitem" (dict "Context" . "Depth" 1 "Active" $url) }}
+            {{- end -}}
           {{- end -}}
         </ul>
       </div>
