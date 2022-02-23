@@ -248,7 +248,12 @@ export function attributes(attrs: string) {
   return attrs
     .replace(/[ ]/g, ' ') // <<< REMOVE WEIRD SPACES!
     .replace(/\s+[a]\s+href/g, ' ') // eg; <button a href="...">
-    .replace(/(\s+?)([^=]+)\=(["'])([^'"]+)['"]/g, (_, ws, name, q, value) => ws + `${name.trim()}="${value}"`);
+    .replace(/([\w-]+)='([^']*)'/g, (_, key, value) => {
+      return `${key.trim()}="${value.replace(/["]/g, '\\"')}"`;
+    })
+    .replace(/(\s+?)([^=]+)\=\"([^"\n>]+)\"/g, (_, ws, name, value) => {
+      return ws + `${name.trim()}="${value}"`;
+    });
 }
 
 export function rewrite(content: string, tag: string, partial: string) {
