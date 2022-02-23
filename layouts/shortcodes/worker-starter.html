@@ -8,7 +8,7 @@
 <div class="WorkerStarter">
   <div class="WorkerStarter--title">
     {{- $text := printf "[%s](%s)" $title $remote -}}
-    {{- .Page.RenderString | $text -}}
+    {{- .Page.RenderString $text -}}
   </div>
 
   <div class="WorkerStarter--description">
@@ -23,7 +23,7 @@
     </div>
 
     <div class="WorkerStarter--command-codeblock-wrapper">
-      {{ .Page.RenderString | printf "```sh\n%s\n```" $command }}
+      {{ .Page.RenderString (printf "```sh\n%s\n```" $command) }}
     </div>
   </div>
 </div>
