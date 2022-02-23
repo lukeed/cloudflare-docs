@@ -297,7 +297,12 @@ export async function mdx(file: string) {
 
   // TODO: other partials ??
 
-  // TODO: imports from partials/components
+  // <DirectoryListing/>
+  // ~> {{<directory-listing>}}
+  data = data.replace(
+    /<DirectoryListing.*\/?>/g,
+    '{{<directory-listing>}}'
+  );
 
   await $.write(file, data);
 }
