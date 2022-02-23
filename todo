@@ -4,10 +4,7 @@ CONVERT
     - GatsbyImage (pages)
     - GenericProcess (ssl)
     - TutorialsBeforeYouStart (/Users/lukee/repos/work/cloudflare-docs/content/workers/tutorials/query-postgres-from-workers-using-database-connectors/index.md)
-
-- [ ] examples component (docs-engine)
-    - workers
-    - cloudflare-one
+    - Demo
 
 - [x] update all code snippets --> customize output? probabyl not, change css instead
 - [ ] (baseof) icons / static product images
@@ -22,7 +19,7 @@ CONVERT
 
 MIGRATE / AUTOMATE
 ---
-- [ ] component/partial imports
+- [-] component/partial imports
 - [-] stylesheets (manual)
 - [x] robots.txt
 - [x] sitemaps

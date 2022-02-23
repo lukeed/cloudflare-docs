@@ -5,23 +5,6 @@
 {{- $remote := printf "https://github.com/%s" $repo -}}
 {{- $command := printf "wrangler generate my-app %s" $remote -}}
 
-<style>
-  .WorkerStarter--command pre {
-    height: var(--height);
-    line-height: 1.4;
-    margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    overflow: hidden;
-  }
-  .WorkerStarter--command code {
-    display: block;
-    padding: 0.7em 1.25em;
-    font-family: inherit;
-    cursor: default;
-  }
-</style>
-
 <div class="WorkerStarter">
   <div class="WorkerStarter--title">
     {{- $text := printf "[%s](%s)" $title $remote -}}

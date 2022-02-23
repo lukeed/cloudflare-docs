@@ -210,7 +210,7 @@ export async function content(file: string) {
 
     // use the "layouts/_default/list.html" for non-documents
     if (fmatter.type && fmatter.type !== 'document') {
-      fmatter.layout = 'list';
+      fmatter.layout = fmatter.type === 'example' ? 'example' : 'list';
     }
 
     if (fmatter.url && /^(https?:)?\/\//.test(fmatter.url)) {
