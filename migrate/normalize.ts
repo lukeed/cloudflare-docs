@@ -295,6 +295,10 @@ export async function mdx(file: string) {
   // ~> {{<prop-meta$1>}}...{{</prop-meta>}}
   data = rewrite(data, 'PropMeta', 'prop-meta');
 
+  // <ParamType(.*)>...</ParamType>
+  // ~> {{<param-type$1>}}...{{</param-type>}}
+  data = rewrite(data, 'ParamType', 'param-type');
+
   // <ContentColumn(.*)>...</ContentColumn>
   // ~> {{<content-column$1>}}...{{</content-column>}}
   data = rewrite(data, 'ContentColumn', 'content-column');
