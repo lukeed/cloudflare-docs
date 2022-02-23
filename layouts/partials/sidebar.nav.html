@@ -1,7 +1,7 @@
 {{- $url := .RelPermalink -}}
 {{- $root := relURL (printf "/%s/" .Section) -}}
 {{- $title := (title .Section) -}}
-{{- $DATA := (.Scratch.Get "product") }}
+{{- $DATA := (index $.Site.Data .Section) -}}
 
 <div class="DocsSidebar">
   <div class="DocsSidebar--sections">

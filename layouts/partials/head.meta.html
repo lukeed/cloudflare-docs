@@ -1,7 +1,5 @@
 {{/* @see :: data/<Product>.yml */}}
 {{- $DATA := (index .Context.Site.Data .Product) -}}
-{{- .Scratch.Set "product" $DATA -}}
-
 {{- $META := merge $DATA.meta (default dict .Context.Params.meta) -}}
 
 {{- $pt := default .Context.Title .Context.Params.meta.title -}}

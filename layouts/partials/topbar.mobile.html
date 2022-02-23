@@ -1,6 +1,6 @@
 {{- $root := relURL (printf "/%s/" .Section) -}}
 {{- $title := (title .Section) -}}
-{{- $DATA := (.Scratch.Get "product") }}
+{{- $DATA := (index $.Site.Data .Section) -}}
 
 <div class="DocsMobileHeader">
   <a class="DocsMobileHeader--cloudflare-logo-link Link Link-without-underline" href="/">
