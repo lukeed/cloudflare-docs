@@ -1,7 +1,10 @@
 import fromnow from 'fromnow';
 
 export function init() {
-	let time = document.querySelector('footer time');
-	let datetime = time && time.getAttribute('datetime');
-	if (datetime) time.textContent = fromnow(datetime, { max: 1, suffix: true });
+	let i=0, tmp: string;
+  let arr = document.querySelectorAll('time.relative');
+  for (; i < arr.length; i++) {
+    tmp = arr[i].getAttribute('datetime');
+    if (tmp) arr[i].textContent = fromnow(tmp, { max: 1, suffix: true });
+  }
 }
