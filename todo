@@ -1,6 +1,24 @@
 CONVERT
 ---
-- [ ] components convert (_components and DirectoryListing)
+- [ ] components convert (_components)
+    - Definitions
+    - Code
+    - Example
+    - GatsbyImage (pages)
+    - GenericProcess (ssl)
+    - PropMeta
+    - ParamType
+    - Strong
+    - Type
+    - TypeLink
+    - TableLayout
+    - TutorialsBeforeYouStart (/Users/lukee/repos/work/cloudflare-docs/content/workers/tutorials/query-postgres-from-workers-using-database-connectors/index.md)
+    - WorkerStarter
+
+- [ ] examples component (docs-engine)
+    - workers
+    - cloudflare-one
+
 - [x] update all code snippets --> customize output? probabyl not, change css instead
 - [ ] (baseof) icons / static product images
 - [x] (baseof) sitemap
@@ -22,7 +40,7 @@ MIGRATE / AUTOMATE
 - [x] 404 page
 - [x] /docs page
 - [x] product grid data
-- [ ] rm -rf developers.cloudflare.com
+- [x] rm -rf developers.cloudflare.com
 
 
 FUTURE

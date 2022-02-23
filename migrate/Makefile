@@ -1,6 +1,6 @@
 reset:
 	cd ..
-	git reset HEAD~25 --hard
+	git reset HEAD~30 --hard
 	git clean -xdf
 	cp ../docs/migrate/Makefile .
 
@@ -70,9 +70,14 @@ run:
 	@git commit -m "remove migrate directory"
 
 	@echo "\n~> removing components directories"
-	find content -name 'components' -type d -exec rm -rf {} \;
+	-find content -name 'components' -type d -exec rm -rf {} \;
 	@git add content
 	@git commit -m "remove component dirs"
+
+	@echo "\n~> removing website directory"
+	rm -rf developers.cloudflare.com
+	@git add developers.cloudflare.com
+	@git commit -m "remove website dir"
 
 	@echo "\n\n---\nRUN CURLs for STYLESHEETS~!\n---\n\n"
 
