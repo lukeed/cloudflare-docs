@@ -6,7 +6,6 @@ CONVERT
     - Strong
     - TableLayout
     - TutorialsBeforeYouStart (/Users/lukee/repos/work/cloudflare-docs/content/workers/tutorials/query-postgres-from-workers-using-database-connectors/index.md)
-    - WorkerStarter
 
 - [ ] examples component (docs-engine)
     - workers

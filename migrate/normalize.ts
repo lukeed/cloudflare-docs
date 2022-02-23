@@ -323,6 +323,10 @@ export async function mdx(file: string) {
   // ~> {{<definitions$1>}}...{{</definitions>}}
   data = rewrite(data, 'Definitions', 'definitions');
 
+  // <WorkerStarter(.*)>...</WorkerStarter>
+  // ~> {{<worker-starter$1>}}...{{</worker-starter>}}
+  data = rewrite(data, 'WorkerStarter', 'worker-starter');
+
   // TODO: other partials ??
 
   // <DirectoryListing/>
