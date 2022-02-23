@@ -2,7 +2,6 @@ CONVERT
 ---
 - [ ] components convert (_components)
     - Definitions
-    - Code
     - Example
     - GatsbyImage (pages)
     - GenericProcess (ssl)

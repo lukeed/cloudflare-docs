@@ -299,6 +299,10 @@ export async function mdx(file: string) {
   // ~> {{<param-type$1>}}...{{</param-type>}}
   data = rewrite(data, 'ParamType', 'param-type');
 
+  // <Code(.*)>...</Code>
+  // ~> {{<code$1>}}...{{</code>}}
+  data = rewrite(data, 'Code', 'code');
+
   // <ContentColumn(.*)>...</ContentColumn>
   // ~> {{<content-column$1>}}...{{</content-column>}}
   data = rewrite(data, 'ContentColumn', 'content-column');
