@@ -315,6 +315,10 @@ export async function mdx(file: string) {
   // ~> {{<type$1>}}...{{</type>}}
   data = rewrite(data, 'Type', 'type');
 
+  // <Example(.*)>...</Example>
+  // ~> {{<example$1>}}...{{</example>}}
+  data = rewrite(data, 'Example', 'example');
+
   // TODO: other partials ??
 
   // <DirectoryListing/>
