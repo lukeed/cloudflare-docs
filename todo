@@ -3,8 +3,6 @@ CONVERT
 - [ ] components convert (_components)
     - GatsbyImage (pages)
     - GenericProcess (ssl)
-    - Strong
-    - TableLayout
     - TutorialsBeforeYouStart (/Users/lukee/repos/work/cloudflare-docs/content/workers/tutorials/query-postgres-from-workers-using-database-connectors/index.md)
 
 - [ ] examples component (docs-engine)

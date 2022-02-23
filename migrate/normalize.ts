@@ -341,6 +341,12 @@ export async function mdx(file: string) {
     '{{<directory-listing>}}'
   );
 
+  // <TableLayout>...</TableLayout> ~> <div>...</div>
+  data = data.replace(/<(\/)?TableLayout>/g, '<$1div>');
+
+  // <Strong>...</Strong> ~> <strong>...</strong>
+  data = data.replace(/<(\/)?Strong>/g, '<$1strong>');
+
   await $.write(file, data);
 }
 
