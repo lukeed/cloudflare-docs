@@ -7,10 +7,9 @@ CONVERT
     - Demo
 
 - [x] update all code snippets --> customize output? probabyl not, change css instead
-- [ ] (baseof) icons / static product images
 - [x] (baseof) sitemap
-- [ ] (baseof) manifest
-- [ ] (baseof) icons
+- [x] (baseof) manifest
+- [x] (baseof) icons
 - [x] developers.cloudflare homepage
 - [x] product grid css responsive
 - [x] twitter timeline on homepage
@@ -19,11 +18,8 @@ CONVERT
 
 MIGRATE / AUTOMATE
 ---
-- [-] component/partial imports
-- [-] stylesheets (manual)
 - [x] robots.txt
 - [x] sitemaps
-- [ ] icons/images?
 - [x] 404 page
 - [x] /docs page
 - [x] product grid data
