@@ -2,6 +2,10 @@
   top: 15px;
 }
 
+.CoveoSearchInterface {
+  min-width: inherit !important;
+}
+
 .CoveoSearchInterface .magic-box .magic-box-input,
 .CoveoSearchInterface .magic-box .magic-box-clear,
 .CoveoDynamicFacet,
